@@ -1,0 +1,135 @@
+# Historical specification only; the social-account application has been removed.
+openapi: 3.0.3
+info:
+  title: AV Social Account Service API
+  version: 1.0.0
+  description: >-
+    Contract-first milestone. Enabled authenticated AV users retrieve their own
+    accounts. An empty database returns an empty list; reads are scoped to the validated owner.
+security:
+  - avAccessToken: []
+paths:
+  /api/v1/social/accounts:
+    get:
+      operationId: listOwnSocialAccounts
+      summary: Retrieve the authenticated user's social accounts
+      description: >-
+        No query parameters or request body are supported. Reject query parameters
+        (including userId) with 400 after authentication. Derive ownership from
+        validated sub and resolve current enabled status and roles through Identity.
+        No additional role is required. Never return another user's records.
+      responses:
+        '200':
+          description: Own accounts; empty when the caller has no records.
+          headers:
+            Cache-Control:
+              description: Prevent storage of account responses.
+              schema:
+                type: string
+                enum: [no-store]
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialAccountsResponse'
+              examples:
+                initial:
+                  value: {accounts: [], totalCount: 0}
+                futureOnly:
+                  summary: Seeded or linked accounts; linking APIs are outside scope
+                  value:
+                    accounts:
+                      - {id: 101, platform: YOUTUBE, accountName: Audience Verdict, status: CONNECTED}
+                    totalCount: 1
+        '400':
+          description: Unsupported query parameters (BAD_REQUEST).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '401':
+          description: Invalid or missing access token, unknown or disabled user (UNAUTHORIZED).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: Denied by applicable AV authorization policy (FORBIDDEN).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: Identity or signing-key dependency unavailable; fail closed (IDENTITY_UNAVAILABLE or AUTHENTICATION_UNAVAILABLE).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+components:
+  securitySchemes:
+    avAccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        Existing AV RS256 token verified against trusted Identity JWKS. Require
+        iss=audience-verdict, aud containing av-api, present unexpired exp and
+        nonblank sub; validate nbf when present with zero clock skew. Reject any
+        purpose claim. Resolve enabled status and current roles from Identity
+        on each request. Token claims alone do not establish account eligibility.
+  schemas:
+    SocialAccountsResponse:
+      type: object
+      additionalProperties: false
+      required: [accounts, totalCount]
+      properties:
+        accounts:
+          type: array
+          description: Only the caller's accounts; empty when no records exist.
+          items:
+            $ref: '#/components/schemas/SocialAccountSummary'
+        totalCount:
+          type: integer
+          format: int64
+          minimum: 0
+          description: Equals accounts length.
+    SocialAccountSummary:
+      type: object
+      description: Future summary contract; never includes provider tokens or secrets.
+      additionalProperties: false
+      required: [id, platform, accountName, status]
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+        platform:
+          type: string
+          minLength: 1
+          example: YOUTUBE
+        accountName:
+          type: string
+          minLength: 1
+          example: Audience Verdict
+        status:
+          type: string
+          minLength: 1
+          example: CONNECTED
+    ApiError:
+      type: object
+      required: [timestamp, status, error, message, path, fieldErrors]
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        fieldErrors:
+          type: object
+          additionalProperties:
+            type: string

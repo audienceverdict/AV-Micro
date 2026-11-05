@@ -1,0 +1,13 @@
+**/target/
+.env
+secrets/
+*.log
+.DS_Store
+**/__pycache__/
+
+# Local credentials and editor/runtime files
+.env.*
+!.env.example
+**/.idea/
+**/.vscode/
+SocialMedia/data/

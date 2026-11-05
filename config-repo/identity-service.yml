@@ -1,0 +1,66 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+  flyway:
+    enabled: false
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.timeout: 10000
+      mail.smtp.writetimeout: 10000
+notifications:
+  email-from: ${MAIL_FROM:}
+internal:
+  service-token: ${INTERNAL_SERVICE_TOKEN}
+  identity-url: ${IDENTITY_INTERNAL_URL:http://identity-service}
+  av-url: ${AV_INTERNAL_URL:http://av-service}
+app:
+  cors-origins: ${CORS_ORIGINS:http://localhost:5173}
+  admin:
+    mobile: ${APP_ADMIN_MOBILE:}
+    email: ${APP_ADMIN_EMAIL:}
+springdoc:
+  packages-to-scan: com.slokam.av.controller
+  paths-to-match: /api/v1/**
+  override-with-generic-response: false
+  swagger-ui:
+    path: /swagger-ui.html
+server:
+  error:
+    include-message: never
+jwt:
+  private-key: ${JWT_PRIVATE_KEY:file:./secrets/identity-private.pem}
+  public-key: ${JWT_PUBLIC_KEY:file:./secrets/identity-public.pem}
+  key-id: ${JWT_KEY_ID:av-identity-1}
+  expiration-ms: ${JWT_EXPIRATION_MS:2592000000}
+auth:
+  mobile:
+    country-code: ${MOBILE_COUNTRY_CODE:91}
+    national-length: ${MOBILE_NATIONAL_LENGTH:10}
+  otp:
+    channel: ${AUTH_OTP_CHANNEL:WHATSAPP}
+    expiration-seconds: ${AUTH_OTP_EXPIRATION_SECONDS:600}
+    resend-cooldown-seconds: 30
+    max-attempts: 5
+    max-requests-per-hour: 10
+whatsapp:
+  phone-number-id: ${WHATSAPP_PHONE_NUMBER_ID:}
+  access-token: ${WHATSAPP_ACCESS_TOKEN:}
+  api-version: ${WHATSAPP_API_VERSION:v25.0}
+  template-name: ${WHATSAPP_OTP_TEMPLATE:otp}
+  template-language: ${WHATSAPP_TEMPLATE_LANGUAGE:en_US}

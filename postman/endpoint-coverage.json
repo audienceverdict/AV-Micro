@@ -1,0 +1,802 @@
+[
+  {
+    "service": "identity-service",
+    "controller": "AdminRoleController.java",
+    "method": "PUT",
+    "path": "/api/v1/admin/users/{id}/additional-roles",
+    "positive": true,
+    "sampleType": "AdditionalRolesRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "AdminRoleController.java",
+    "method": "GET",
+    "path": "/api/v1/admin/users/{id}/verifier-shows",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "identity-service",
+    "controller": "AdminUserController.java",
+    "method": "GET",
+    "path": "/api/v1/admin/users",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "identity-service",
+    "controller": "AdminUserController.java",
+    "method": "GET",
+    "path": "/api/v1/admin/users/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "identity-service",
+    "controller": "AdminUserController.java",
+    "method": "PATCH",
+    "path": "/api/v1/admin/users/{id}/role",
+    "positive": true,
+    "sampleType": "RoleUpdateRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "AdminUserController.java",
+    "method": "PATCH",
+    "path": "/api/v1/admin/users/{id}/status",
+    "positive": true,
+    "sampleType": "AccountStatusRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "AuthController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/email-otp/request",
+    "positive": false,
+    "sampleType": "EmailOtpRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "AuthController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/email-otp/verify",
+    "positive": false,
+    "sampleType": "EmailOtpVerifyRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "AuthController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/email-otp/register",
+    "positive": false,
+    "sampleType": "EmailOtpRegistrationRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "AuthController.java",
+    "method": "GET",
+    "path": "/api/v1/auth/me",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "identity-service",
+    "controller": "AuthController.java",
+    "method": "PUT",
+    "path": "/api/v1/auth/me",
+    "positive": true,
+    "sampleType": "UpdateProfileRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "InternalUserController.java",
+    "method": "GET",
+    "path": "/internal/users/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "identity-service",
+    "controller": "InternalUserController.java",
+    "method": "GET",
+    "path": "/internal/users",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "identity-service",
+    "controller": "JwksController.java",
+    "method": "GET",
+    "path": "/.well-known/jwks.json",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "identity-service",
+    "controller": "OtpController.java",
+    "method": "GET",
+    "path": "/api/v1/auth/otp/config",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "identity-service",
+    "controller": "OtpController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/otp/request",
+    "positive": true,
+    "sampleType": "OtpRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "OtpController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/otp/verify",
+    "positive": true,
+    "sampleType": "OtpVerifyRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "OtpController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/otp/register",
+    "positive": true,
+    "sampleType": "OtpRegistrationRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "OtpController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/otp/registration/request",
+    "positive": true,
+    "sampleType": "OtpRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "OtpController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/otp/registration/verify",
+    "positive": true,
+    "sampleType": "OtpVerifyRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "OtpController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/otp/registration/email/request",
+    "positive": true,
+    "sampleType": "RegistrationEmailRequest"
+  },
+  {
+    "service": "identity-service",
+    "controller": "OtpController.java",
+    "method": "POST",
+    "path": "/api/v1/auth/otp/registration/email/verify",
+    "positive": true,
+    "sampleType": "RegistrationEmailVerifyRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "GET",
+    "path": "/api/v1/bookings/me",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "POST",
+    "path": "/api/v1/bookings/seat-holds",
+    "positive": true,
+    "sampleType": "SeatHoldRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "GET",
+    "path": "/api/v1/bookings/seat-holds",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "GET",
+    "path": "/api/v1/bookings/admin",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "GET",
+    "path": "/api/v1/bookings/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "GET",
+    "path": "/api/v1/bookings/{id}/ticket-qr",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "POST",
+    "path": "/api/v1/bookings",
+    "positive": true,
+    "sampleType": "CreateBookingRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "POST",
+    "path": "/api/v1/bookings/{id}/cancel",
+    "positive": true,
+    "sampleType": "CancelBookingRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "POST",
+    "path": "/api/v1/bookings/admin/{id}/confirm",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "POST",
+    "path": "/api/v1/bookings/admin/{id}/cancel",
+    "positive": true,
+    "sampleType": "AdminCancellationRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "POST",
+    "path": "/api/v1/bookings/admin/{id}/attendance",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "BookingController.java",
+    "method": "POST",
+    "path": "/api/v1/bookings/admin/ticket-scan",
+    "positive": true,
+    "sampleType": "VerifyTicketRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "InternalShowController.java",
+    "method": "GET",
+    "path": "/internal/shows/{id}/exists",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieController.java",
+    "method": "GET",
+    "path": "/api/v1/movies",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieController.java",
+    "method": "GET",
+    "path": "/api/v1/movies/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieController.java",
+    "method": "POST",
+    "path": "/api/v1/movies",
+    "positive": true,
+    "sampleType": "MovieRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieController.java",
+    "method": "PUT",
+    "path": "/api/v1/movies/{id}",
+    "positive": true,
+    "sampleType": "MovieRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieController.java",
+    "method": "DELETE",
+    "path": "/api/v1/movies/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieCreditController.java",
+    "method": "GET",
+    "path": "/api/v1/movies/{movieId}/credits",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieCreditController.java",
+    "method": "GET",
+    "path": "/api/v1/movies/{movieId}/cast",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieCreditController.java",
+    "method": "GET",
+    "path": "/api/v1/movies/{movieId}/crew",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieCreditController.java",
+    "method": "POST",
+    "path": "/api/v1/movies/{movieId}/credits",
+    "positive": true,
+    "sampleType": "MovieCreditRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieCreditController.java",
+    "method": "PUT",
+    "path": "/api/v1/movies/{movieId}/credits/{creditId}",
+    "positive": true,
+    "sampleType": "MovieCreditRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieCreditController.java",
+    "method": "DELETE",
+    "path": "/api/v1/movies/{movieId}/credits/{creditId}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieMediaController.java",
+    "method": "GET",
+    "path": "/api/v1/movies/{movieId}/media",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieMediaController.java",
+    "method": "POST",
+    "path": "/api/v1/movies/{movieId}/media",
+    "positive": true,
+    "sampleType": "MovieMediaRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieMediaController.java",
+    "method": "PUT",
+    "path": "/api/v1/movies/{movieId}/media/{mediaId}",
+    "positive": true,
+    "sampleType": "MovieMediaRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieMediaController.java",
+    "method": "PUT",
+    "path": "/api/v1/movies/{movieId}/media/order",
+    "positive": true,
+    "sampleType": "MediaOrderRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieMediaController.java",
+    "method": "PUT",
+    "path": "/api/v1/movies/{movieId}/media/{mediaId}/primary",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "MovieMediaController.java",
+    "method": "DELETE",
+    "path": "/api/v1/movies/{movieId}/media/{mediaId}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "NotificationController.java",
+    "method": "GET",
+    "path": "/api/v1/notifications",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "NotificationController.java",
+    "method": "POST",
+    "path": "/api/v1/notifications/admin/campaigns",
+    "positive": true,
+    "sampleType": "CampaignRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "NotificationController.java",
+    "method": "POST",
+    "path": "/api/v1/notifications/admin/shows/{showId}/reminder",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "PaymentController.java",
+    "method": "GET",
+    "path": "/api/v1/payments/booking/{bookingId}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "PaymentController.java",
+    "method": "POST",
+    "path": "/api/v1/payments/booking/{bookingId}/verify",
+    "positive": true,
+    "sampleType": "VerifyPaymentRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "GET",
+    "path": "/api/v1/people",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "GET",
+    "path": "/api/v1/people/{personId}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "POST",
+    "path": "/api/v1/people",
+    "positive": true,
+    "sampleType": "PersonRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "PUT",
+    "path": "/api/v1/people/{personId}",
+    "positive": true,
+    "sampleType": "PersonRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "GET",
+    "path": "/api/v1/people/{personId}/social-links",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "POST",
+    "path": "/api/v1/people/{personId}/social-links",
+    "positive": true,
+    "sampleType": "PersonSocialLinkRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "PUT",
+    "path": "/api/v1/people/{personId}/social-links/{linkId}",
+    "positive": true,
+    "sampleType": "PersonSocialLinkRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "DELETE",
+    "path": "/api/v1/people/{personId}/social-links/{linkId}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "GET",
+    "path": "/api/v1/people/{personId}/filmography",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "PeopleController.java",
+    "method": "GET",
+    "path": "/api/v1/people/{personId}/movies",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "ReviewController.java",
+    "method": "GET",
+    "path": "/api/v1/reviews",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "ReviewController.java",
+    "method": "POST",
+    "path": "/api/v1/reviews",
+    "positive": true,
+    "sampleType": "Review"
+  },
+  {
+    "service": "av-service",
+    "controller": "ReviewController.java",
+    "method": "PUT",
+    "path": "/api/v1/reviews/{id}",
+    "positive": true,
+    "sampleType": "Review"
+  },
+  {
+    "service": "av-service",
+    "controller": "ReviewController.java",
+    "method": "POST",
+    "path": "/api/v1/reviews/admin/{id}/moderate",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "ShowController.java",
+    "method": "GET",
+    "path": "/api/v1/shows",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "ShowController.java",
+    "method": "GET",
+    "path": "/api/v1/shows/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "ShowController.java",
+    "method": "GET",
+    "path": "/api/v1/shows/{id}/availability",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "ShowController.java",
+    "method": "POST",
+    "path": "/api/v1/shows",
+    "positive": true,
+    "sampleType": "Show"
+  },
+  {
+    "service": "av-service",
+    "controller": "ShowController.java",
+    "method": "PUT",
+    "path": "/api/v1/shows/{id}",
+    "positive": true,
+    "sampleType": "Show"
+  },
+  {
+    "service": "av-service",
+    "controller": "ShowController.java",
+    "method": "DELETE",
+    "path": "/api/v1/shows/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "GET",
+    "path": "/api/v1/theatres/screens/{screenId}/layout-compatibility",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "POST",
+    "path": "/api/v1/theatres/screens/{screenId}/layout-compatibility/reconcile",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "GET",
+    "path": "/api/v1/theatres",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "GET",
+    "path": "/api/v1/theatres/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "POST",
+    "path": "/api/v1/theatres",
+    "positive": true,
+    "sampleType": "Theatre"
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "PUT",
+    "path": "/api/v1/theatres/{id}",
+    "positive": true,
+    "sampleType": "Theatre"
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "DELETE",
+    "path": "/api/v1/theatres/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "GET",
+    "path": "/api/v1/theatres/{id}/screens",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "POST",
+    "path": "/api/v1/theatres/{id}/screens",
+    "positive": true,
+    "sampleType": "Screen"
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "PUT",
+    "path": "/api/v1/theatres/screens/{screenId}",
+    "positive": true,
+    "sampleType": "Screen"
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "DELETE",
+    "path": "/api/v1/theatres/screens/{screenId}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "GET",
+    "path": "/api/v1/theatres/screens/{screenId}/layout-versions",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "GET",
+    "path": "/api/v1/theatres/screens/{screenId}/layout-versions/{versionId}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "POST",
+    "path": "/api/v1/theatres/screens/{screenId}/layout-versions",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "PUT",
+    "path": "/api/v1/theatres/screens/{screenId}/layout-versions/{versionId}/seats",
+    "positive": true,
+    "sampleType": "List<LayoutSeat>"
+  },
+  {
+    "service": "av-service",
+    "controller": "TheatreController.java",
+    "method": "POST",
+    "path": "/api/v1/theatres/screens/{screenId}/layout-versions/{versionId}/publish",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "TicketScanHistoryController.java",
+    "method": "GET",
+    "path": "/api/v1/admin/ticket-scans",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "VerifierController.java",
+    "method": "GET",
+    "path": "/api/v1/verifier/shows",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "WaitingListController.java",
+    "method": "GET",
+    "path": "/api/v1/waiting-list",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "WaitingListController.java",
+    "method": "GET",
+    "path": "/api/v1/waiting-list/admin",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "WaitingListController.java",
+    "method": "POST",
+    "path": "/api/v1/waiting-list",
+    "positive": true,
+    "sampleType": "WaitingListRequest"
+  },
+  {
+    "service": "av-service",
+    "controller": "WaitingListController.java",
+    "method": "DELETE",
+    "path": "/api/v1/waiting-list/{id}",
+    "positive": true,
+    "sampleType": null
+  },
+  {
+    "service": "av-service",
+    "controller": "WaitingListController.java",
+    "method": "POST",
+    "path": "/api/v1/waiting-list/{id}/claim",
+    "positive": true,
+    "sampleType": null
+  }
+]

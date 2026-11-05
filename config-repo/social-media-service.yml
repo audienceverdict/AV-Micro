@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER:social_media}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+jwt:
+  jwk-set-uri: ${JWT_JWK_SET_URI:http://localhost:8081/.well-known/jwks.json}
+social:
+  publishing:
+    public-media-path: /api/v1/social/content/
+    storage-directory: ${PUBLISHING_STORAGE_DIRECTORY:./data/publishing}
+    public-base-url: ${PUBLISHING_PUBLIC_BASE_URL:}

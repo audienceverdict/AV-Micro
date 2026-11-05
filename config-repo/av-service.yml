@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 1
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.timeout: 10000
+      mail.smtp.writetimeout: 10000
+notifications:
+  email-from: ${MAIL_FROM:}
+internal:
+  service-token: ${INTERNAL_SERVICE_TOKEN}
+  identity-url: ${IDENTITY_INTERNAL_URL:http://identity-service}
+  av-url: ${AV_INTERNAL_URL:http://av-service}
+app:
+  cors-origins: ${CORS_ORIGINS:http://localhost:5173}
+  admin:
+    mobile: ${APP_ADMIN_MOBILE:}
+    email: ${APP_ADMIN_EMAIL:}
+springdoc:
+  packages-to-scan: com.slokam.av.controller
+  paths-to-match: /api/v1/**
+  override-with-generic-response: false
+  swagger-ui:
+    path: /swagger-ui.html
+server:
+  error:
+    include-message: never
+jwt:
+  jwk-set-uri: ${JWT_JWK_SET_URI:http://localhost:8081/.well-known/jwks.json}
+booking:
+  seat-hold-minutes: 5
+  waiting-list-offer-minutes: 5

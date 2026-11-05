@@ -1,0 +1,63 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          # Specific routes must precede the AV catch-all (lower order wins).
+          routes:
+            - id: identity
+              order: 0
+              uri: lb://identity-service
+              predicates:
+                - Path=/api/v1/auth/**,/api/v1/admin/users,/api/v1/admin/users/**
+            - id: jwks
+              order: 0
+              uri: lb://identity-service
+              predicates:
+                - Path=/.well-known/jwks.json
+            - id: social-media
+              order: 0
+              uri: lb://social-media-service
+              predicates:
+                - Path=/api/v1/social/**
+              filters:
+                - RewritePath=/api/v1/social(?<segment>/?.*), /api$\{segment}
+            - id: identity-docs
+              order: 0
+              uri: lb://identity-service
+              predicates:
+                - Path=/identity/v3/api-docs
+              filters:
+                - SetPath=/v3/api-docs
+            - id: social-media-docs
+              order: 0
+              uri: lb://social-media-service
+              predicates:
+                - Path=/social/v3/api-docs
+              filters:
+                - SetPath=/v3/api-docs
+            - id: av-docs
+              order: 0
+              uri: lb://av-service
+              predicates:
+                - Path=/av/v3/api-docs
+              filters:
+                - SetPath=/v3/api-docs
+            - id: av
+              order: 100
+              uri: lb://av-service
+              predicates:
+                - Path=/api/v1/**
+          httpclient:
+            connect-timeout: 3000
+            response-timeout: 30s
+          globalcors:
+            add-to-simple-url-handler-mapping: true
+            cors-configurations:
+              '[/**]':
+                allowedOrigins: ${CORS_ORIGINS:http://localhost:5173}
+                allowedMethods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+                allowedHeaders: [Authorization, Content-Type]
+                exposedHeaders: [X-Request-ID]
+          default-filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials

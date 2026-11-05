@@ -1,0 +1,32 @@
+# External configuration. IDs below are placeholders, credential references are names.
+social:
+  platforms:
+    instagram:
+      enabled: true
+      accounts:
+        - external-id: "REPLACE_WITH_INSTAGRAM_PROFESSIONAL_ACCOUNT_ID"
+          name: Primary Instagram
+          credential-reference: INSTAGRAM_PRIMARY_TOKEN
+          stories-enabled: true
+          engagement-enabled: true
+        - external-id: "REPLACE_WITH_SECOND_INSTAGRAM_ACCOUNT_ID"
+          name: Second Instagram
+          credential-reference: INSTAGRAM_SECOND_TOKEN
+          stories-enabled: false
+          engagement-enabled: false
+    facebook:
+      enabled: true
+      accounts:
+        - external-id: "REPLACE_WITH_FACEBOOK_PAGE_ID"
+          name: Facebook Page
+          credential-reference: FACEBOOK_PAGE_TOKEN
+          engagement-enabled: true
+          include-photos: true
+    youtube:
+      enabled: true
+      accounts:
+        - external-id: "REPLACE_WITH_YOUTUBE_CHANNEL_ID"
+          name: YouTube channel
+          credential-reference: YOUTUBE_ACCESS_TOKEN
+          api-key-reference: YOUTUBE_API_KEY
+          include-playlists: true

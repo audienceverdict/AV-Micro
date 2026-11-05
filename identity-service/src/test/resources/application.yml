@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+  mail:
+    host: localhost
+eureka:
+  client:
+    enabled: false
+internal:
+  service-token: test-service-token-at-least-thirty-two-characters
+jwt:
+  private-key: classpath:test-private.pem
+  public-key: classpath:test-public.pem

@@ -1,0 +1,842 @@
+[
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/client/ShowDirectory.java",
+    "line": 12,
+    "status": 503,
+    "error": "SHOW_SERVICE_UNAVAILABLE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/controller/InternalUserController.java",
+    "line": 13,
+    "status": 404,
+    "error": "USER_NOT_FOUND"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 62,
+    "status": 403,
+    "error": "ADMIN_EMAIL_UNAUTHORIZED"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 85,
+    "status": 403,
+    "error": "ADMIN_EMAIL_UNAUTHORIZED"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 92,
+    "status": 401,
+    "error": "UNAUTHORIZED"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 113,
+    "status": 403,
+    "error": "ADMIN_EMAIL_UNAUTHORIZED"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 123,
+    "status": 409,
+    "error": "DUPLICATE_MOBILE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 128,
+    "status": 409,
+    "error": "DUPLICATE_MOBILE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 131,
+    "status": 401,
+    "error": "UNAUTHORIZED"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 148,
+    "status": 404,
+    "error": "USER_NOT_FOUND"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 162,
+    "status": 400,
+    "error": "EMAIL_CHANGE_REQUIRES_VERIFICATION"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/AuthService.java",
+    "line": 185,
+    "status": 400,
+    "error": "INVALID_PRIMARY_ROLE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/ConfiguredOtpService.java",
+    "line": 34,
+    "status": 400,
+    "error": "INVALID_EMAIL"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/ConfiguredOtpService.java",
+    "line": 39,
+    "status": 400,
+    "error": "REGISTRATION_REQUIRED"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/ConfiguredOtpService.java",
+    "line": 41,
+    "status": 403,
+    "error": "ACCOUNT_UNAUTHORIZED"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/ConfiguredOtpService.java",
+    "line": 62,
+    "status": 409,
+    "error": "CONTACT_ALREADY_IN_USE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/ConfiguredOtpService.java",
+    "line": 82,
+    "status": 400,
+    "error": "INVALID_REGISTRATION_TOKEN"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/ConfiguredOtpService.java",
+    "line": 88,
+    "status": 409,
+    "error": "CONTACT_ALREADY_IN_USE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/MetaWhatsAppProvider.java",
+    "line": 56,
+    "status": 503,
+    "error": "OTP_DELIVERY_UNAVAILABLE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/OtpService.java",
+    "line": 115,
+    "status": 429,
+    "error": "OTP_COOLDOWN"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/OtpService.java",
+    "line": 120,
+    "status": 429,
+    "error": "OTP_RATE_LIMIT"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/OtpService.java",
+    "line": 166,
+    "status": 429,
+    "error": "OTP_ATTEMPT_LIMIT"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/OtpService.java",
+    "line": 210,
+    "status": 400,
+    "error": "INVALID_OTP"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 26,
+    "status": 404,
+    "error": "USER_NOT_FOUND"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 32,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 38,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 41,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 54,
+    "status": 400,
+    "error": "INVALID_ADDITIONAL_ROLE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 56,
+    "status": 400,
+    "error": "VERIFIER_ROLE_REQUIRED"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 59,
+    "status": 404,
+    "error": "SHOW_NOT_FOUND"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/SmtpEmailProvider.java",
+    "line": 64,
+    "status": 503,
+    "error": "EMAIL_UNAVAILABLE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/service/SmtpEmailProvider.java",
+    "line": 112,
+    "status": 503,
+    "error": "EMAIL_UNAVAILABLE"
+  },
+  {
+    "source": "identity-service/src/main/java/com/slokam/av/util/MobileNormalizer.java",
+    "line": 24,
+    "status": 400,
+    "error": "INVALID_MOBILE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/client/IdentityClient.java",
+    "line": 21,
+    "status": 503,
+    "error": "IDENTITY_UNAVAILABLE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/controller/TicketScanHistoryController.java",
+    "line": 30,
+    "status": 400,
+    "error": "INVALID_PAGINATION"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 100,
+    "status": 401,
+    "error": "UNAUTHORIZED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 104,
+    "status": 404,
+    "error": "SHOW_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 106,
+    "status": 400,
+    "error": "SHOW_CLOSED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 108,
+    "status": 400,
+    "error": "INVALID_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 112,
+    "status": 400,
+    "error": "DUPLICATE_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 127,
+    "status": 409,
+    "error": "SEAT_UNAVAILABLE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 186,
+    "status": 404,
+    "error": "BOOKING_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 189,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 264,
+    "status": 401,
+    "error": "UNAUTHORIZED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 269,
+    "status": 404,
+    "error": "SHOW_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 271,
+    "status": 400,
+    "error": "SHOW_CLOSED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 274,
+    "status": 400,
+    "error": "BOOKING_NOT_OPEN"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 276,
+    "status": 400,
+    "error": "BOOKING_CLOSED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 277,
+    "status": 400,
+    "error": "INVALID_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 280,
+    "status": 400,
+    "error": "DUPLICATE_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 291,
+    "status": 400,
+    "error": "TICKET_LIMIT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 297,
+    "status": 404,
+    "error": "SCREEN_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 303,
+    "status": 409,
+    "error": "SEAT_ALREADY_BOOKED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 359,
+    "status": 400,
+    "error": "SEATS_REQUIRED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 365,
+    "status": 400,
+    "error": "INVALID_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 367,
+    "status": 400,
+    "error": "INVALID_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 405,
+    "status": 404,
+    "error": "BOOKING_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 424,
+    "status": 404,
+    "error": "BOOKING_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 432,
+    "status": 400,
+    "error": "INVALID_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/BookingService.java",
+    "line": 518,
+    "status": 404,
+    "error": "BOOKING_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/CatalogValues.java",
+    "line": 18,
+    "status": 400,
+    "error": "INVALID_PAGINATION"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/CatalogValues.java",
+    "line": 21,
+    "status": 400,
+    "error": "INVALID_CATALOG_DATA"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/LayoutCompatibilityService.java",
+    "line": 49,
+    "status": 409,
+    "error": "LAYOUT_RECOVERY_AMBIGUOUS"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/LayoutCompatibilityService.java",
+    "line": 96,
+    "status": 500,
+    "error": "LAYOUT_SNAPSHOT_ERROR"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/LayoutCompatibilityService.java",
+    "line": 101,
+    "status": 404,
+    "error": "SCREEN_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieCreditService.java",
+    "line": 31,
+    "status": 404,
+    "error": "MOVIE_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieCreditService.java",
+    "line": 41,
+    "status": 404,
+    "error": "PERSON_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieCreditService.java",
+    "line": 47,
+    "status": 404,
+    "error": "PERSON_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieCreditService.java",
+    "line": 69,
+    "status": 404,
+    "error": "CREDIT_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieCreditService.java",
+    "line": 71,
+    "status": 404,
+    "error": "PERSON_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieCreditService.java",
+    "line": 79,
+    "status": 409,
+    "error": "DUPLICATE_CREDIT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieMediaService.java",
+    "line": 19,
+    "status": 404,
+    "error": "MOVIE_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieMediaService.java",
+    "line": 21,
+    "status": 404,
+    "error": "MOVIE_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieMediaService.java",
+    "line": 30,
+    "status": 404,
+    "error": "MEDIA_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/MovieService.java",
+    "line": 47,
+    "status": 404,
+    "error": "MOVIE_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/NotificationService.java",
+    "line": 113,
+    "status": 400,
+    "error": "MOVIE_REQUIRED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/NotificationService.java",
+    "line": 116,
+    "status": 404,
+    "error": "SHOW_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/NotificationService.java",
+    "line": 195,
+    "status": 404,
+    "error": "SHOW_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/PaymentService.java",
+    "line": 31,
+    "status": 404,
+    "error": "PAYMENT_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/PaymentService.java",
+    "line": 45,
+    "status": 404,
+    "error": "BOOKING_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/PeopleService.java",
+    "line": 27,
+    "status": 404,
+    "error": "PERSON_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/PeopleService.java",
+    "line": 43,
+    "status": 404,
+    "error": "PERSON_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/PeopleService.java",
+    "line": 53,
+    "status": 409,
+    "error": "DUPLICATE_SOCIAL_LINK"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/PeopleService.java",
+    "line": 58,
+    "status": 404,
+    "error": "SOCIAL_LINK_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ReviewService.java",
+    "line": 42,
+    "status": 404,
+    "error": "MOVIE_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ReviewService.java",
+    "line": 61,
+    "status": 404,
+    "error": "REVIEW_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ReviewService.java",
+    "line": 64,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ReviewService.java",
+    "line": 84,
+    "status": 404,
+    "error": "REVIEW_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ReviewService.java",
+    "line": 94,
+    "status": 400,
+    "error": "INVALID_RATING"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 13,
+    "status": 404,
+    "error": "USER_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 16,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 19,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/RoleAccessService.java",
+    "line": 23,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowSeatService.java",
+    "line": 36,
+    "status": 400,
+    "error": "INVALID_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowSeatService.java",
+    "line": 39,
+    "status": 400,
+    "error": "INVALID_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowSeatService.java",
+    "line": 79,
+    "status": 409,
+    "error": "SEAT_UNAVAILABLE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowSeatService.java",
+    "line": 83,
+    "status": 409,
+    "error": "LAYOUT_RECONCILIATION_REQUIRED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowService.java",
+    "line": 64,
+    "status": 404,
+    "error": "SHOW_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowService.java",
+    "line": 74,
+    "status": 404,
+    "error": "SCREEN_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowService.java",
+    "line": 122,
+    "status": 400,
+    "error": "SHOW_SCREEN_IMMUTABLE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowService.java",
+    "line": 159,
+    "status": 400,
+    "error": "INVALID_MOVIE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowService.java",
+    "line": 163,
+    "status": 400,
+    "error": "INVALID_THEATRE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowService.java",
+    "line": 167,
+    "status": 400,
+    "error": "INVALID_SCREEN"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowService.java",
+    "line": 172,
+    "status": 400,
+    "error": "INVALID_TIME"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/ShowService.java",
+    "line": 180,
+    "status": 409,
+    "error": "SHOW_OVERLAP"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/SmtpEmailProvider.java",
+    "line": 64,
+    "status": 503,
+    "error": "EMAIL_UNAVAILABLE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/SmtpEmailProvider.java",
+    "line": 112,
+    "status": 503,
+    "error": "EMAIL_UNAVAILABLE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 59,
+    "status": 404,
+    "error": "THEATRE_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 116,
+    "status": 404,
+    "error": "SCREEN_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 124,
+    "status": 409,
+    "error": "SCREEN_HAS_SHOWS"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 203,
+    "status": 400,
+    "error": "INVALID_LAYOUT_NAME"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 228,
+    "status": 400,
+    "error": "INVALID_SEAT_ID"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 233,
+    "status": 400,
+    "error": "DUPLICATE_SEAT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 257,
+    "status": 400,
+    "error": "EMPTY_LAYOUT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 263,
+    "status": 400,
+    "error": "INVALID_SEATS"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 265,
+    "status": 400,
+    "error": "INVALID_CATEGORY"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 267,
+    "status": 400,
+    "error": "INVALID_COLOR"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 269,
+    "status": 400,
+    "error": "INVALID_SEAT_ID"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 277,
+    "status": 500,
+    "error": "LAYOUT_SNAPSHOT_ERROR"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 300,
+    "status": 404,
+    "error": "SCREEN_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 306,
+    "status": 409,
+    "error": "LAYOUT_LOCKED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 315,
+    "status": 404,
+    "error": "LAYOUT_VERSION_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 320,
+    "status": 400,
+    "error": "LAYOUT_SCREEN_MISMATCH"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 344,
+    "status": 404,
+    "error": "SCREEN_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 348,
+    "status": 409,
+    "error": "LAYOUT_RECONCILIATION_REQUIRED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 352,
+    "status": 409,
+    "error": "LAYOUT_RECONCILIATION_REQUIRED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 393,
+    "status": 400,
+    "error": "EMPTY_LAYOUT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 436,
+    "status": 400,
+    "error": "EMPTY_LAYOUT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/TheatreService.java",
+    "line": 441,
+    "status": 400,
+    "error": "INVALID_LAYOUT_DIMENSIONS"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 64,
+    "status": 404,
+    "error": "SHOW_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 66,
+    "status": 400,
+    "error": "SHOW_CLOSED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 68,
+    "status": 400,
+    "error": "INVALID_TICKET_COUNT"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 79,
+    "status": 409,
+    "error": "ALREADY_WAITING"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 89,
+    "status": 409,
+    "error": "SEATS_AVAILABLE"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 107,
+    "status": 404,
+    "error": "WAITING_LIST_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 112,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 124,
+    "status": 404,
+    "error": "WAITING_LIST_NOT_FOUND"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 129,
+    "status": 403,
+    "error": "FORBIDDEN"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/service/WaitingListService.java",
+    "line": 133,
+    "status": 409,
+    "error": "OFFER_EXPIRED"
+  },
+  {
+    "source": "av-service/src/main/java/com/slokam/av/util/MobileNormalizer.java",
+    "line": 24,
+    "status": 400,
+    "error": "INVALID_MOBILE"
+  }
+]
