@@ -160,7 +160,9 @@ class LayoutIntegrationTest {
         var booking=bookingService.create(f.principal(),bookingRequest(show,first,second));
         var states=showSeats.occupancy(show).seats();assertEquals(4,states.size());
         assertEquals(List.of("RESERVED","RESERVED","HELD","DISABLED"),states.stream().map(ShowSeatService.SeatState::state).toList());
-        assertEquals(held.expiresAt,states.get(2).holdExpiresAt());assertTrue(states.stream().noneMatch(ShowSeatService.SeatState::clickable));
+        // Compare persisted timestamps: the database stores less precision than Instant.now().
+        var persistedHold=holds.findById(held.id).orElseThrow();
+        assertEquals(persistedHold.expiresAt,states.get(2).holdExpiresAt());assertTrue(states.stream().noneMatch(ShowSeatService.SeatState::clickable));
         bookingService.cancel(booking.id,f.principal(),List.of(first));
         assertEquals("AVAILABLE",showSeats.occupancy(show).seats().get(0).state());
         bookingService.cancel(booking.id,f.principal(),List.of(second));
