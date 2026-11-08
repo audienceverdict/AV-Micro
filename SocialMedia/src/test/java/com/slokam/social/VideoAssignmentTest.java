@@ -27,13 +27,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class VideoAssignmentTest {
   @Configuration @EnableAutoConfiguration(exclude=DataSourceAutoConfiguration.class)
-  @Import({VideoAssignmentController.class, VideoAssignmentService.class, com.slokam.social.api.PortalVideoController.class, com.slokam.social.api.PortalVideoService.class, SecurityConfiguration.class, OpenApiConfiguration.class})
+  @Import({VideoAssignmentController.class, VideoAssignmentService.class, com.slokam.social.api.VideoController.class, com.slokam.social.api.PortalVideoController.class, com.slokam.social.api.PortalVideoService.class, SecurityConfiguration.class, OpenApiConfiguration.class})
   static class Application {}
   @Autowired MockMvc mvc;
   @Autowired VideoAssignmentService service;
   @MockitoBean JdbcTemplate jdbc;
   @MockitoBean AudienceDirectory users;
   @MockitoBean JwtDecoder decoder;
+  @MockitoBean com.slokam.social.api.VideoService videos;
+  @MockitoBean com.slokam.social.comments.CommentStore comments;
   private org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor as(String role) {
     return jwt().jwt(j -> j.subject("me")).authorities(new SimpleGrantedAuthority("ROLE_"+role));
   }
@@ -137,7 +139,12 @@ class VideoAssignmentTest {
     mvc.perform(get("/api/portal/videos?page=0&size=6").with(as("USER"))).andExpect(status().isOk());
     mvc.perform(get("/api/portal/videos?size=201")).andExpect(status().isBadRequest());
     mvc.perform(get("/api/portal/videos?page=-1")).andExpect(status().isBadRequest());
-    mvc.perform(get("/api/videos")).andExpect(status().isUnauthorized());
+    mvc.perform(get("/api/videos")).andExpect(status().isOk());
+    verify(videos).list(0, 50);
+    mvc.perform(get("/api/videos/VID-1/uploads")).andExpect(status().isOk());
+    verify(videos).uploads("VID-1");
+    mvc.perform(post("/api/videos").contentType("application/json")
+        .content("{\"title\":\"Video\"}")).andExpect(status().isUnauthorized());
     mvc.perform(get("/v3/api-docs")).andExpect(status().isOk())
         .andExpect(jsonPath("$.paths['/api/portal/videos'].get.security").isEmpty());
   }
