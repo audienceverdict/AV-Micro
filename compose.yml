@@ -24,7 +24,8 @@ services:
       - mysql-data:/var/lib/mysql
       - ./deployment/mysql-init.sql:/docker-entrypoint-initdb.d/01-databases.sql:ro
     healthcheck:
-      test: [CMD-SHELL, 'mysqladmin ping -h localhost -p"$$MYSQL_ROOT_PASSWORD" --silent']
+      # Require TCP readiness; the temporary initialization server only has a socket.
+      test: [CMD-SHELL, 'MYSQL_PWD="$$MYSQL_ROOT_PASSWORD" mysql --protocol=TCP --host=127.0.0.1 --user=root --execute="SELECT 1" --silent >/dev/null']
       interval: 5s
       timeout: 5s
       retries: 30
