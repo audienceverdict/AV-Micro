@@ -134,14 +134,22 @@ abstract class AbstractMySqlVerification {
   }
 
   @Test
-  void authenticatedVideoHttpFlowPersistsAndReadsFromMySql() throws Exception {
+  void publicVideoReadsAndAdminWritesPersistToMySql() throws Exception {
     var admin = org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
         .jwt().authorities(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_ADMIN"));
     mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/videos"))
-        .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isUnauthorized());
+        .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk());
     mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/api/videos")
         .with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
             .jwt().authorities(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_USER"))))
+        .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk());
+    mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/videos")
+        .contentType("application/json").content("{\"title\":\"Unauthorized video\"}"))
+        .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isUnauthorized());
+    mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/videos")
+        .with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
+            .jwt().authorities(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_USER")))
+        .contentType("application/json").content("{\"title\":\"Forbidden video\"}"))
         .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isForbidden());
     var response = mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/api/videos")
         .with(admin).contentType("application/json").content("{\"title\":\"HTTP integration video\",\"description\":\"Disposable test\"}"))
@@ -188,7 +196,7 @@ abstract class AbstractMySqlVerification {
     for (String platform : List.of("youtube", "instagram", "facebook", "test"))
       assertNotNull(registry.resolve(platform));
     assertEquals(
-        12,
+        13,
         jdbc.queryForObject(
             "SELECT COUNT(*) FROM flyway_schema_history WHERE success=1", Integer.class));
   }
