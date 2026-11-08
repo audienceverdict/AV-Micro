@@ -1,0 +1,11 @@
+{
+  "idempotency_key": "live-sm-test-20261101-6562977dea5a40c19b71fa5107fd2701",
+  "content_id": "25a9ea78-735a-4b1c-908e-94a0c47d46f3",
+  "metadata": {
+    "title": "App upload test - 1 November 2026",
+    "caption": "Sample video to verify publishing from our app. This is a test post. 1 November 2026.",
+    "type": "VIDEO",
+    "draft": true,
+    "youtubePrivacy": "unlisted"
+  }
+}

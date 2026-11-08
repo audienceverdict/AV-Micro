@@ -1,0 +1,20 @@
+[
+  {
+    "platform": "facebook",
+    "jobRecorded": true,
+    "status": "SENT",
+    "replyVisibleInThread": true
+  },
+  {
+    "platform": "instagram",
+    "jobRecorded": true,
+    "status": "SENT",
+    "replyVisibleInThread": true
+  },
+  {
+    "platform": "youtube",
+    "jobRecorded": true,
+    "status": "FAILED",
+    "replyVisibleInThread": false
+  }
+]

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.slokam.av.service.RoleAccessIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.679 s -- in com.slokam.av.service.RoleAccessIntegrationTest

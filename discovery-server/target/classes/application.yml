@@ -1,0 +1,18 @@
+server:
+  port: ${PORT:8761}
+spring:
+  application:
+    name: discovery-server
+  security:
+    user:
+      name: ${EUREKA_USER:discovery}
+      password: ${EUREKA_PASSWORD}
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

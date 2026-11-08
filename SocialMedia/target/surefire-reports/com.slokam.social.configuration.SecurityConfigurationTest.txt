@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.slokam.social.configuration.SecurityConfigurationTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.359 s -- in com.slokam.social.configuration.SecurityConfigurationTest

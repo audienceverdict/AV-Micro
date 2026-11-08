@@ -1,0 +1,35 @@
+{
+  "database": "social_reply_live_8b9db60fe41b427f",
+  "port": 18091,
+  "replyText": "Thank you for your comment!",
+  "targets": [
+    {
+      "platform": "facebook",
+      "accountId": 4,
+      "commentId": 19,
+      "contentId": 5,
+      "externalAccountId": "1371997735999298",
+      "externalCommentId": "122094711189539941_2588229161696953",
+      "externalContentId": "122094711117539941"
+    },
+    {
+      "platform": "instagram",
+      "accountId": 2,
+      "commentId": 1,
+      "contentId": 1,
+      "externalAccountId": "17841414973923772",
+      "externalCommentId": "18111355049463789",
+      "externalContentId": "18251020576312136"
+    },
+    {
+      "platform": "youtube",
+      "accountId": 45,
+      "commentId": 2,
+      "contentId": 11,
+      "externalAccountId": "UCYVPdhvod5gCkpkfM41tk0w",
+      "externalCommentId": "UgzXKOBvlcMtnmeWP0Z4AaABAg",
+      "externalContentId": "6z_Z-6m_uOk"
+    }
+  ],
+  "imported": true
+}

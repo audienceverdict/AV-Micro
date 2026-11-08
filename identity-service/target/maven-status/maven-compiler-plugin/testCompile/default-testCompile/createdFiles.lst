@@ -1,0 +1,12 @@
+com/slokam/av/service/RoleAccessIntegrationTest$TestShow.class
+com/slokam/av/service/RoleAccessIntegrationTest.class
+com/slokam/av/service/ConfiguredOtpIntegrationTest.class
+com/slokam/av/service/MetaWhatsAppProviderTest.class
+com/slokam/av/service/SmtpEmailProviderTest.class
+com/slokam/av/service/ConfiguredOtpIntegrationTest$Config.class
+com/slokam/av/service/EmailDeliveryServiceTest.class
+com/slokam/av/service/ProductionAdminProvisionerTest.class
+com/slokam/av/config/SecurityConfigTest.class
+com/slokam/av/service/EmailOtpChannelTest.class
+com/slokam/av/service/RoleAccessIntegrationTest$Config.class
+com/slokam/av/service/IdentityHttpIntegrationTest.class

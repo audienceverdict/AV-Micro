@@ -1,0 +1,9 @@
+/Users/upendrakristipati/Documents/AV/AV-BackEnd-3/AV-MicroServies/identity-service/src/test/java/com/slokam/av/config/SecurityConfigTest.java
+/Users/upendrakristipati/Documents/AV/AV-BackEnd-3/AV-MicroServies/identity-service/src/test/java/com/slokam/av/service/ConfiguredOtpIntegrationTest.java
+/Users/upendrakristipati/Documents/AV/AV-BackEnd-3/AV-MicroServies/identity-service/src/test/java/com/slokam/av/service/EmailDeliveryServiceTest.java
+/Users/upendrakristipati/Documents/AV/AV-BackEnd-3/AV-MicroServies/identity-service/src/test/java/com/slokam/av/service/EmailOtpChannelTest.java
+/Users/upendrakristipati/Documents/AV/AV-BackEnd-3/AV-MicroServies/identity-service/src/test/java/com/slokam/av/service/IdentityHttpIntegrationTest.java
+/Users/upendrakristipati/Documents/AV/AV-BackEnd-3/AV-MicroServies/identity-service/src/test/java/com/slokam/av/service/MetaWhatsAppProviderTest.java
+/Users/upendrakristipati/Documents/AV/AV-BackEnd-3/AV-MicroServies/identity-service/src/test/java/com/slokam/av/service/ProductionAdminProvisionerTest.java
+/Users/upendrakristipati/Documents/AV/AV-BackEnd-3/AV-MicroServies/identity-service/src/test/java/com/slokam/av/service/RoleAccessIntegrationTest.java
+/Users/upendrakristipati/Documents/AV/AV-BackEnd-3/AV-MicroServies/identity-service/src/test/java/com/slokam/av/service/SmtpEmailProviderTest.java

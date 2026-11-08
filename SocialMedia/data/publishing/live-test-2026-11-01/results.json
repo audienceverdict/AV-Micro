@@ -1,0 +1,45 @@
+{
+  "id": "25a9ea78-735a-4b1c-908e-94a0c47d46f3",
+  "title": "App upload test - 1 November 2026",
+  "caption": "Sample video to verify publishing from our app. This is a test post. 1 November 2026.",
+  "content_type": "VIDEO",
+  "media_type": "video/mp4",
+  "media_size": 53786,
+  "youtube_privacy": "unlisted",
+  "created_at": "2026-11-01T11:13:42.767688",
+  "publications": [
+    {
+      "id": "c08b1885-b76c-4130-8df6-0b17881ff4b2",
+      "platform": "facebook",
+      "external_account_id": "1371997735999298",
+      "status": "PUBLISHED",
+      "external_content_id": "4550036125314794",
+      "permalink": "https://www.facebook.com/4550036125314794",
+      "error_message": null,
+      "attempts": 3,
+      "updated_at": "2026-11-01T11:41:49.048147"
+    },
+    {
+      "id": "fc5205d5-c9c6-4774-b87b-8410dfe45461",
+      "platform": "instagram",
+      "external_account_id": "17841414973923772",
+      "status": "PUBLISHED",
+      "external_content_id": "17896617564654929",
+      "permalink": "https://www.instagram.com/reel/DfMmV4GD9nO/",
+      "error_message": null,
+      "attempts": 3,
+      "updated_at": "2026-11-01T11:15:00.350432"
+    },
+    {
+      "id": "48393e12-f9ab-4f70-abab-2de5d8321d3a",
+      "platform": "youtube",
+      "external_account_id": "UCYVPdhvod5gCkpkfM41tk0w",
+      "status": "PUBLISHED",
+      "external_content_id": "kPUbev5QuLI",
+      "permalink": "https://www.youtube.com/watch?v=kPUbev5QuLI",
+      "error_message": null,
+      "attempts": 4,
+      "updated_at": "2026-11-01T11:42:20.985253"
+    }
+  ]
+}

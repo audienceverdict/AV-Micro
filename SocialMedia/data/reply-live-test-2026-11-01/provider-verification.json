@@ -1,0 +1,18 @@
+[
+  {
+    "platform": "facebook",
+    "externalReplyId": "122094711189539941_1457565473148857",
+    "providerReadHttp": 200,
+    "textMatches": true,
+    "parentVerified": true,
+    "providerParentId": "122094711189539941_2588229161696953"
+  },
+  {
+    "platform": "instagram",
+    "externalReplyId": "18042639677836604",
+    "providerReadHttp": 200,
+    "textMatches": true,
+    "parentVerified": true,
+    "providerParentId": null
+  }
+]

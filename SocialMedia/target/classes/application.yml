@@ -1,0 +1,114 @@
+spring:
+  application:
+    name: social-media-service
+  config:
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+  cloud:
+    config:
+      username: ${CONFIG_USER:config}
+      password: ${CONFIG_PASSWORD}
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 513MB
+  aop:
+    proxy-target-class: false
+  main:
+    web-application-type: servlet
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/social_media?createDatabaseIfNotExist=true&connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true}
+    # Credentials are supplied through the environment or a private config tree.
+    username: ${DB_USER:social_media}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+social:
+  publishing:
+    enabled: ${PUBLISHING_ENABLED:true}
+    interval-ms: 15000
+    initial-delay-ms: 15000
+    batch-size: 10
+    storage-directory: ${PUBLISHING_STORAGE_DIRECTORY:./data/publishing}
+    max-media-bytes: 536870912
+    request-timeout-seconds: 300
+    # Public HTTPS reverse proxy origin; expose only GET /api/content/{id}/media.
+    # Meta fetches media from this URL. No public URL is needed for YouTube.
+    public-base-url: "${PUBLISHING_PUBLIC_BASE_URL:}"
+    youtube:
+      client-id: "${YOUTUBE_CLIENT_ID:}"
+      client-secret: "${YOUTUBE_CLIENT_SECRET:}"
+      token-url: https://oauth2.googleapis.com/token
+      upload-url: https://www.googleapis.com/upload/youtube/v3/videos
+    meta:
+      client-id: "${META_CLIENT_ID:}"
+      client-secret: "${META_CLIENT_SECRET:}"
+  statistics:
+    enabled: ${STATISTICS_ENABLED:true}
+    interval-ms: 300000
+    initial-delay-ms: 60000
+    requests-per-account: 20
+    refresh-seconds: 3600
+    failure-retry-seconds: 86400
+    snapshot-seconds: 86400
+    lookback-days: 28
+    max-pages: 100
+  sync:
+    enabled: ${SYNC_ENABLED:true}
+    interval-ms: 300000
+    initial-delay-ms: 0
+    overlap-seconds: 120
+    page-size: 100
+    backfill-batch-pages: 10
+    incremental-batch-pages: 10
+    reconciliation-interval-seconds: 86400
+  http:
+    connect-timeout-ms: 5000
+    read-timeout-seconds: 30
+    max-attempts: 4
+    retry-base-ms: 500
+    max-retry-after-seconds: 300
+    requests-per-minute: 60
+  platforms:
+    instagram:
+      base-url: https://graph.facebook.com
+      api-version: ${META_API_VERSION:v26.0}
+      accounts: []
+    facebook:
+      base-url: https://graph.facebook.com
+      api-version: ${META_API_VERSION:v26.0}
+      accounts: []
+    youtube:
+      base-url: https://www.googleapis.com/youtube/v3
+      accounts: []
+logging:
+  level:
+    com.slokam.social: ${SOCIAL_LOG_LEVEL:INFO}
+    reactor.netty.http.client: WARN
+    org.springframework.web.reactive.function.client: WARN
+
+# Container port; remote access is through the gateway.
+server:
+  address: ${SERVER_ADDRESS:0.0.0.0}
+  port: ${SERVER_PORT:8085}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# Interactive operator API documentation; paths are relative to the server root.
+springdoc:
+  paths-to-match: /api/**
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+    try-it-out-enabled: false

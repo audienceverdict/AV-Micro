@@ -1,0 +1,53 @@
+[
+  {
+    "platform": "facebook",
+    "accountId": 4,
+    "commentId": 19,
+    "contentId": 5,
+    "externalAccountId": "1371997735999298",
+    "externalCommentId": "122094711189539941_2588229161696953",
+    "externalContentId": "122094711117539941",
+    "replyJobId": "44a533a2-046e-44d5-a138-d93c0aee92bb",
+    "enqueueHttp": 202,
+    "replyText": "Thank you for your comment!",
+    "status": "SENT",
+    "externalReplyId": "122094711189539941_1457565473148857",
+    "error": null,
+    "attempts": 1,
+    "contentPermalink": "https://www.facebook.com/photo.php?fbid=122094711117539941&set=a.122094711165539941&type=3"
+  },
+  {
+    "platform": "instagram",
+    "accountId": 2,
+    "commentId": 1,
+    "contentId": 1,
+    "externalAccountId": "17841414973923772",
+    "externalCommentId": "18111355049463789",
+    "externalContentId": "18251020576312136",
+    "replyJobId": "6917cf15-a2a6-4854-b7a9-df2a7cda473c",
+    "enqueueHttp": 202,
+    "replyText": "Thank you for your comment!",
+    "status": "SENT",
+    "externalReplyId": "18042639677836604",
+    "error": null,
+    "attempts": 1,
+    "contentPermalink": "https://www.instagram.com/p/DfKBll6hksT/"
+  },
+  {
+    "platform": "youtube",
+    "accountId": 45,
+    "commentId": 2,
+    "contentId": 11,
+    "externalAccountId": "UCYVPdhvod5gCkpkfM41tk0w",
+    "externalCommentId": "UgzXKOBvlcMtnmeWP0Z4AaABAg",
+    "externalContentId": "6z_Z-6m_uOk",
+    "replyJobId": "1054e1f3-a3a2-4b4b-a3ff-f689044abc4f",
+    "enqueueHttp": 202,
+    "replyText": "Thank you for your comment!",
+    "status": "FAILED",
+    "externalReplyId": null,
+    "error": "Provider HTTP 403; check permissions, quota and media requirements",
+    "attempts": 1,
+    "contentPermalink": "https://www.youtube.com/watch?v=6z_Z-6m_uOk"
+  }
+]
