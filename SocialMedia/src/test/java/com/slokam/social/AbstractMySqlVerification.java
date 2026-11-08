@@ -160,12 +160,35 @@ abstract class AbstractMySqlVerification {
   }
 
   @Test
+  void persistenceAutomaticallyGroupsVideoTitlesAndRechecksUnchangedUploads() {
+    var base = content("base", "caption");
+    java.util.function.BiFunction<String, String, SocialContent> video = (externalId, title) ->
+        new SocialContent(null, base.platform(), externalId, base.accountId(), base.authorId(),
+            base.authorName(), ContentType.VIDEO, "video", title, base.caption(), base.permalink(),
+            base.thumbnailUrl(), base.publishedAt(), base.providerUpdatedAt(), base.retrievedAt(),
+            base.engagementMetadata(), base.providerMetadata(), base.status(), List.of());
+    var first = video.apply("first-video", "HI Hello");
+    var second = video.apply("second-video", "hi     HELLO");
+    assertEquals(2, persistence.persist(List.of(first, second)).inserted());
+    assertEquals(1, jdbc.queryForObject("SELECT COUNT(*) FROM application_videos", Integer.class));
+    assertEquals(2, jdbc.queryForObject("SELECT COUNT(*) FROM application_video_uploads", Integer.class));
+    assertEquals(2, persistence.persist(List.of(first, second)).skipped());
+    assertEquals(2, jdbc.queryForObject("SELECT COUNT(*) FROM application_video_assignment_audit", Integer.class));
+    // Simulate an old, unchanged upload that predates automatic assignment.
+    jdbc.update("DELETE FROM application_video_assignment_audit");
+    jdbc.update("DELETE FROM application_video_uploads");
+    assertEquals(2, persistence.persist(List.of(first, second)).skipped());
+    assertEquals(2, jdbc.queryForObject("SELECT COUNT(*) FROM application_video_uploads", Integer.class));
+    assertEquals(1, jdbc.queryForObject("SELECT COUNT(*) FROM application_videos", Integer.class));
+  }
+
+  @Test
   void discoversProvidersAndOperatorApi() {
     assertNotNull(context.getBean(com.slokam.social.api.VideoController.class));
     for (String platform : List.of("youtube", "instagram", "facebook", "test"))
       assertNotNull(registry.resolve(platform));
     assertEquals(
-        8,
+        12,
         jdbc.queryForObject(
             "SELECT COUNT(*) FROM flyway_schema_history WHERE success=1", Integer.class));
   }
@@ -474,7 +497,8 @@ abstract class AbstractMySqlVerification {
     publishing.setEnabled(true);
     try {
       var request = new com.slokam.social.publishing.PublishingService.CreateContent("Title", "Caption",
-          com.slokam.social.publishing.PublishingService.ContentType.TEXT, false, "public");
+          com.slokam.social.publishing.PublishingService.ContentType.TEXT, false, "public",
+          new com.slokam.social.moderation.PostCategory(com.slokam.social.moderation.PostCategory.Topic.AV, null, "Title"));
       String id = (String) service.create("save-once", request, null).get("id");
       assertEquals(id, service.create("save-once", request, null).get("id"));
       service.publish(id);
@@ -508,7 +532,8 @@ abstract class AbstractMySqlVerification {
           () -> service.create("no-accounts", request, null));
       assertEquals(1, jdbc.queryForObject("SELECT COUNT(*) FROM application_content", Integer.class));
       var draft = new com.slokam.social.publishing.PublishingService.CreateContent("Draft", "Caption",
-          com.slokam.social.publishing.PublishingService.ContentType.TEXT, true, null);
+          com.slokam.social.publishing.PublishingService.ContentType.TEXT, true, null,
+          new com.slokam.social.moderation.PostCategory(com.slokam.social.moderation.PostCategory.Topic.AV, null, "Draft"));
       service.create("draft", draft, null);
       assertEquals(2, jdbc.queryForObject("SELECT COUNT(*) FROM application_content", Integer.class));
       assertEquals(1, jdbc.queryForObject("SELECT COUNT(*) FROM social_publications", Integer.class));

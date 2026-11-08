@@ -5,5 +5,6 @@ public enum Role {
     ADMIN,
     VERIFIER,
     THEATER_MANAGER,
+    SOCIAL_MEDIA_MANAGER,
     MOVIE_MAKER
 }

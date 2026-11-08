@@ -57,7 +57,7 @@ spring:
               '[/**]':
                 allowedOrigins: ${CORS_ORIGINS:http://localhost:5173}
                 allowedMethods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
-                allowedHeaders: [Authorization, Content-Type]
+                allowedHeaders: [Authorization, Content-Type, Idempotency-Key]
                 exposedHeaders: [X-Request-ID]
           default-filters:
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials

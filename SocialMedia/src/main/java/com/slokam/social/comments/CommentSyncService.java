@@ -80,7 +80,7 @@ public class CommentSyncService {
           var t = task.get();
           try {
             leases.guard(a.id(), owner);
-            if (a.credentialExpiresAt() != null
+            if (!a.platform().equals("youtube") && a.credentialExpiresAt() != null
                 && !a.credentialExpiresAt().isAfter(java.time.Instant.now()))
               throw new IllegalStateException("Expired credential");
             var page = provider.get().fetch(a, t.externalId(), t.parent(), t.cursor(), 100);

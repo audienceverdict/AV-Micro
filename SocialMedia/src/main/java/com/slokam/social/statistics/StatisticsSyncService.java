@@ -48,7 +48,7 @@ public class StatisticsSyncService {
           var t = store.start(a.id(), owner, due.get(), s.getLookbackDays());
           try {
             if (a.credentialExpiresAt()!=null && !a.credentialExpiresAt().isAfter(java.time.Instant.now())
-                && !(a.platform().equals("youtube") && t.operation().equals("public")))
+                && !a.platform().equals("youtube"))
               throw new OfficialStatisticsProvider.AccessUnavailable();
             var page = matches.getFirst().fetch(a, t.target(), t.operation(), t.cursor(), t.from(), t.to());
             store.commit(a.id(), owner, t, page, s.getRefreshSeconds(), s.getSnapshotSeconds(), s.getMaxPages());

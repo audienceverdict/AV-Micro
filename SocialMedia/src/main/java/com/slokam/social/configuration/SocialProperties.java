@@ -78,7 +78,7 @@ public class SocialProperties {
     private String name;
     @NotBlank private String credentialReference;
     private String apiKeyReference;
-    // Optional per-channel offline OAuth token for publishing.
+    // Optional per-channel offline OAuth token shared by reads, analytics and publishing.
     private String refreshTokenReference;
     private boolean publishingEnabled = true;
     private boolean commentRepliesEnabled = false;

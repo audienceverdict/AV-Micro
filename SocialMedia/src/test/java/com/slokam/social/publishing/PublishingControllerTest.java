@@ -31,7 +31,7 @@ class PublishingControllerTest {
     var file = new MockMultipartFile("file", "video.mp4", "video/mp4", new byte[]{1});
     when(service.create(eq("one"), any(), any())).thenReturn(Map.of("id", "content1"));
     mvc.perform(multipart("/api/content")
-        .file(metadata("{\"title\":\"Demo\",\"caption\":\"Caption\",\"type\":\"VIDEO\"}")).file(file).header("Idempotency-Key", "one"))
+        .file(metadata("{\"title\":\"Demo\",\"caption\":\"Caption\",\"type\":\"VIDEO\",\"category\":{\"topic\":\"AV\",\"applicationVideoName\":\"Demo\"}}")).file(file).header("Idempotency-Key", "one"))
         .andExpect(status().isCreated()).andExpect(jsonPath("$.id").value("content1"));
     verify(service).create(eq("one"), argThat(request -> !request.draft() && request.type() == PublishingService.ContentType.VIDEO), any());
   }

@@ -84,34 +84,24 @@ Disabled users receive `401`, matching the existing JWT filter's enabled-account
 
 These are implementation acceptance criteria, not claims of passing runtime tests. The machine-readable companion is [social-account.openapi.yaml](social-account.openapi.yaml).
 
-## User portal video feed
+## Public portal video catalog
 
-`GET /api/v1/social/portal/videos?page=0&size=20&platform=youtube`
+`GET /api/v1/social/videos?offset=0&limit=200` is also public for visitors and logged-in users. It returns the existing array of video master records without changing fields or ordering. `GET /api/v1/social/videos/{videoId}/uploads` is also public and returns the existing linked-upload data unchanged. Video detail and management routes, including assigning and unlinking uploads, retain their existing access rules. Invalid bearer tokens still return 401; anonymous callers should omit the Authorization header.
 
-Gateway: `http://localhost:8080`. Direct service route:
-`http://localhost:8085/api/portal/videos`.
-Requires an Identity access token in `Authorization: Bearer <access-token>`;
-regular authenticated users and admins can read this endpoint.
+`GET /api/v1/social/portal/videos?page=0&size=6`
 
-Parameters: zero-based `page` (default 0, maximum 1000000), `size` (default 20,
-1–100), optional case-insensitive `platform` (`youtube`, `instagram`, `facebook`,
-`linkedin`). Invalid parameters return 400; missing/invalid tokens return 401.
+Gateway: `http://localhost:8080`. Direct service: `http://localhost:8085/api/portal/videos`.
+No login or Authorization header is required. The local frontend proxy can use `http://localhost:5173/api/v1/social/portal/videos`.
+
+Parameters: zero-based `page` (default 0, maximum 1000000), `size` (default 20, 1–200), optional case-insensitive `platform` (`youtube`, `instagram`, `facebook`, `linkedin`), `topic` (`MOVIE`, `AV`) and `categoryName`. Invalid parameters return 400.
 
 Response contains `items`, `page`, `size`, `totalElements`, `totalPages`, `hasNext`.
-Each item contains `id`, `platform`, `accountName`, `contentType`, `title`,
-`caption`, `permalink`, `thumbnailUrl`, `publishedAt`, and ordered `assets`.
-Assets contain `mediaType`, `mediaUrl`, `thumbnailUrl`, `width`, `height`,
-`durationSeconds`, `displayOrder`. Nullable media fields may be absent in provider
-records; use the post permalink when no playable media URL is available. Media
-URLs are provider URLs and may expire; this endpoint does not proxy video bytes.
+Each item contains all master fields returned by the admin video list: `id` (`VID-...`), `title`, `description`, `title_match_key`, `created_at`, and `updated_at`, plus `uploads` (empty when none are linked). The unfiltered catalog includes the same application videos, master field values and creation-time/ID order as `/api/v1/social/videos`. The public response retains its pagination envelope and adds display information; it is not the admin endpoint's bare array. Pagination still applies: `size=6` returns at most six masters. For the equivalent of admin `offset=0&limit=200`, use `http://localhost:5173/api/v1/social/portal/videos?page=0&size=200` through the frontend proxy and read `items`. Continue while `hasNext` is true to retrieve the full catalog. Synchronization status and assignment audits remain admin-only.
 
-Only AVAILABLE VIDEO, SHORT_VIDEO, REEL and LIVE posts from enabled accounts with
-publication timestamps at or before now are returned, ordered by publication time
-and ID descending. Both assigned and unassigned social videos are included.
-An empty page returns `items: []`. Existing administrative video routes retain
-ADMIN-only access.
+Each upload includes its local numeric `id`, `platform`, `accountName`, `contentType`, `title`, `caption`, `permalink`, `thumbnailUrl`, `publishedAt`, `topic`, `categoryName`, ordered `assets`, numeric nullable `viewCount`, `likeCount`, `commentCount`, and `metricsUpdatedAt`. Metrics use stored lifetime counters. Assets include `mediaType`, `mediaUrl`, `thumbnailUrl`, `width`, `height`, `durationSeconds`, `displayOrder`. Provider media URLs may expire; use the permalink when no playable URL is available.
+
+Approval, account enabled state, availability, publication date and user assignments do not restrict this catalog or its linked uploads. Optional filters select masters having a matching linked upload; each matching master's full upload list is returned. Unlinked social posts are not application videos and do not appear independently. Existing administrative routes retain their access rules.
 
 ```sh
-curl 'http://localhost:8080/api/v1/social/portal/videos?page=0&size=20&platform=youtube' \
-  -H "Authorization: Bearer <access-token>"
+curl 'http://localhost:8080/api/v1/social/portal/videos?page=0&size=200'
 ```

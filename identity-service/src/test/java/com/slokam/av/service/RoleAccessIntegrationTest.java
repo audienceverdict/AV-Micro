@@ -42,6 +42,14 @@ class RoleAccessIntegrationTest {
     private TestShow show() {
         var s=new TestShow();org.mockito.Mockito.when(shows.existsById(s.id)).thenReturn(true);return s;
     }
+    @Test void socialMediaManagerCanBeGrantedAndAppearsInJwt() {
+        var admin=account(Role.ADMIN); var audience=account(Role.USER);
+        var response=access.replace(admin.id,audience.id,
+            new AdditionalRolesRequest(Set.of(Role.SOCIAL_MEDIA_MANAGER),Set.of()));
+        assertTrue(response.roles().contains(Role.SOCIAL_MEDIA_MANAGER));
+        assertTrue(jwt.validate(jwt.generate(users.findById(audience.id).orElseThrow()))
+            .getClaimAsStringList("roles").contains("SOCIAL_MEDIA_MANAGER"));
+    }
     @Test void legacyAccountsAndTokensRetainAccessAndClaims() {
         var audience=account(Role.USER); var admin=account(Role.ADMIN);
         assertEquals(Set.of(Role.USER), UserResponse.of(audience).roles());

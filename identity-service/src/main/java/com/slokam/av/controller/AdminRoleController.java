@@ -15,7 +15,7 @@ public class AdminRoleController {
     public AdminRoleController(RoleAccessService access) { this.access = access; }
 
     @io.swagger.v3.oas.annotations.Operation(summary = "Replace additional staff roles and verifier show assignments",
-            description = "Preserves the primary USER or ADMIN role. Empty arrays revoke additional access. Theater Manager and Movie Maker grant no additional permissions yet.")
+            description = "Preserves the primary USER or ADMIN role. Empty arrays revoke additional access. SOCIAL_MEDIA_MANAGER can manage audience video assignments. Theater Manager and Movie Maker grant no additional permissions yet.")
     @PutMapping("/{id}/additional-roles")
     public UserResponse replace(@PathVariable String id, @Valid @RequestBody AdditionalRolesRequest request,
             Principal principal) {

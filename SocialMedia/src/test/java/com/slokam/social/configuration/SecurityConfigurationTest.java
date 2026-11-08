@@ -30,26 +30,67 @@ class SecurityConfigurationTest {
   static class Endpoints {
     @GetMapping({"/api/videos", "/api/portal/videos", "/api/content/{id}/media"}) String get() { return "ok"; }
     @PostMapping("/api/content/{id}/media") String post() { return "ok"; }
+    @GetMapping({"/api/comments", "/api/comments/{id}/thread", "/api/videos/{id}/comments"}) String comments() { return "ok"; }
+    @PostMapping({"/api/content/{id}/comments", "/api/comments/{id}/replies"}) String commentWrite() { return "ok"; }
+    @PostMapping("/api/videos") String createVideo() { return "ok"; }
+    @GetMapping("/api/videos/{id}") String video() { return "ok"; }
+    @GetMapping("/api/videos/{id}/uploads") String uploads() { return "ok"; }
+    @PutMapping("/api/videos/{id}/uploads/{contentId}") String assign() { return "ok"; }
+    @DeleteMapping("/api/videos/{id}/uploads/{contentId}") String unlink() { return "ok"; }
   }
   @Autowired MockMvc mvc;
   @MockitoBean JwtDecoder decoder;
 
-  @Test void operatorApisRequireIdentityAdminAndMediaExceptionIsGetOnly() throws Exception {
-    mvc.perform(get("/api/videos")).andExpect(status().isUnauthorized());
+  @Test void videoCatalogIsPublicAndManagementRemainsAdminOnly() throws Exception {
+    mvc.perform(get("/api/videos").param("offset", "0").param("limit", "200")).andExpect(status().isOk());
     when(decoder.decode("invalid")).thenThrow(new BadJwtException("Invalid token"));
     mvc.perform(get("/api/videos").header("Authorization", "Bearer invalid")).andExpect(status().isUnauthorized());
     when(decoder.decode("user")).thenReturn(token("USER"));
-    mvc.perform(get("/api/videos").header("Authorization", "Bearer user")).andExpect(status().isForbidden());
+    mvc.perform(get("/api/videos").header("Authorization", "Bearer user")).andExpect(status().isOk());
+    mvc.perform(post("/api/videos")).andExpect(status().isUnauthorized());
+    mvc.perform(post("/api/videos").header("Authorization", "Bearer user")).andExpect(status().isForbidden());
+    mvc.perform(get("/api/videos/VID-1")).andExpect(status().isUnauthorized());
+    mvc.perform(get("/api/videos/VID-1").header("Authorization", "Bearer user")).andExpect(status().isForbidden());
     when(decoder.decode("admin")).thenReturn(token("ADMIN"));
     mvc.perform(get("/api/videos").header("Authorization", "Bearer admin")).andExpect(status().isOk());
+    mvc.perform(post("/api/videos").header("Authorization", "Bearer admin")).andExpect(status().isOk());
     mvc.perform(get("/api/content/opaque/media")).andExpect(status().isOk());
     mvc.perform(post("/api/content/opaque/media")).andExpect(status().isUnauthorized());
   }
-  @Test void portalFeedRequiresAuthenticationAndAllowsRegularUsers() throws Exception {
-    mvc.perform(get("/api/portal/videos")).andExpect(status().isUnauthorized());
+  @Test void portalCatalogAllowsAnonymousAndRegularUsers() throws Exception {
+    mvc.perform(get("/api/portal/videos")).andExpect(status().isOk());
     when(decoder.decode("user")).thenReturn(token("USER"));
     mvc.perform(get("/api/portal/videos").header("Authorization", "Bearer user")).andExpect(status().isOk());
     mvc.perform(post("/api/portal/videos").header("Authorization", "Bearer user")).andExpect(status().isForbidden());
+  }
+
+  @Test void uploadListingIsPublicAndUploadChangesRemainAdminOnly() throws Exception {
+    String path = "/api/videos/VID-1/uploads";
+    mvc.perform(get(path)).andExpect(status().isOk());
+    when(decoder.decode("user")).thenReturn(token("USER"));
+    mvc.perform(get(path).header("Authorization", "Bearer user")).andExpect(status().isOk());
+    mvc.perform(put(path + "/1")).andExpect(status().isUnauthorized());
+    mvc.perform(delete(path + "/1")).andExpect(status().isUnauthorized());
+    mvc.perform(put(path + "/1").header("Authorization", "Bearer user")).andExpect(status().isForbidden());
+    mvc.perform(delete(path + "/1").header("Authorization", "Bearer user")).andExpect(status().isForbidden());
+    when(decoder.decode("admin")).thenReturn(token("ADMIN"));
+    mvc.perform(put(path + "/1").header("Authorization", "Bearer admin")).andExpect(status().isOk());
+    mvc.perform(delete(path + "/1").header("Authorization", "Bearer admin")).andExpect(status().isOk());
+  }
+
+  @Test void commentReadsAllowUsersAndWritesRequireAdmin() throws Exception {
+    when(decoder.decode("user")).thenReturn(token("USER"));
+    when(decoder.decode("admin")).thenReturn(token("ADMIN"));
+    for(String path:List.of("/api/comments", "/api/comments/1/thread", "/api/videos/VID-1/comments")) {
+      mvc.perform(get(path)).andExpect(status().isUnauthorized());
+      mvc.perform(get(path).header("Authorization","Bearer user")).andExpect(status().isOk());
+      mvc.perform(get(path).header("Authorization","Bearer admin")).andExpect(status().isOk());
+    }
+    for(String path:List.of("/api/content/1/comments", "/api/comments/1/replies")) {
+      mvc.perform(post(path)).andExpect(status().isUnauthorized());
+      mvc.perform(post(path).header("Authorization","Bearer user")).andExpect(status().isForbidden());
+      mvc.perform(post(path).header("Authorization","Bearer admin")).andExpect(status().isOk());
+    }
   }
 
   private Jwt token(String role) {

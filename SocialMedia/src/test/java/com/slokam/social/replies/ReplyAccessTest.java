@@ -14,7 +14,7 @@ class ReplyAccessTest {
     var jwt = Jwt.withTokenValue("test").header("alg","RS256").subject("alice").build();
     SecurityContextHolder.getContext().setAuthentication(new JwtAuthenticationToken(jwt,List.of(new SimpleGrantedAuthority(role))));
   }
-  @Test void identityAndAccountScopeAreRequired() {
+  @Test void identityAndAdminRoleAreRequiredButAccountAllowlistsAreNot() {
     var properties=new ReplyProperties();var operator=new ReplyProperties.Operator();
     operator.setAccountIds(List.of(4L));properties.getOperators().put("alice",operator);
     var access=new ReplyAccess(properties);var request=new MockHttpServletRequest();
@@ -23,7 +23,7 @@ class ReplyAccessTest {
     assertEquals(403,assertThrows(ResponseStatusException.class,()->access.authenticate(request)).getStatusCode().value());
     login("ROLE_ADMIN");
     var actor=access.authenticate(request);actor.require(4);assertEquals("alice",actor.name());
-    assertEquals(403,assertThrows(ResponseStatusException.class,()->actor.require(5)).getStatusCode().value());
-    properties.getOperators().clear();assertTrue(access.authenticate(request).accounts().isEmpty());
+    actor.require(5);assertTrue(actor.allAccounts());
+    properties.getOperators().clear();access.authenticate(request).require(9999);
   }
 }

@@ -111,3 +111,5 @@ Replace identity-service with any of:
 - config-server
 - discovery-server
 - mysql for database logs
+
+Audience video assignment APIs, permissions, and Swagger URLs: [guide](SocialMedia/docs/AUDIENCE_VIDEO_ASSIGNMENTS.md).

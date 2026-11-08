@@ -36,6 +36,20 @@ class SocialMediaRouteTest {
     client.get().uri("/social/v3/api-docs").exchange().expectStatus().isOk()
         .expectBody(String.class).isEqualTo("/v3/api-docs||");
   }
+  @Test void routesUploadCommentsAndAllowsIdempotencyHeaderFromFrontend() {
+    var client = WebTestClient.bindToServer().baseUrl("http://localhost:" + context.getWebServer().getPort()).build();
+    client.post().uri("/api/v1/social/uploads/42/comments")
+        .header("Authorization", "Bearer admin-token").header("Idempotency-Key","comment-42")
+        .contentType(org.springframework.http.MediaType.APPLICATION_JSON).bodyValue("{\"text\":\"Hello\"}")
+        .exchange().expectStatus().isOk().expectBody(String.class)
+        .isEqualTo("/api/uploads/42/comments|Bearer admin-token|");
+    client.options().uri("/api/v1/social/uploads/42/comments")
+        .header("Origin","http://localhost:5173")
+        .header("Access-Control-Request-Method","POST")
+        .header("Access-Control-Request-Headers","authorization,content-type,idempotency-key")
+        .exchange().expectStatus().isOk()
+        .expectHeader().valueMatches("Access-Control-Allow-Headers","(?i).*idempotency-key.*");
+  }
   @Test void routesIdentityAvAndDocsFromCentralConfiguration() {
     var client = WebTestClient.bindToServer().baseUrl("http://localhost:" + context.getWebServer().getPort()).build();
     for (String path : java.util.List.of("/api/v1/auth/otp/config", "/api/v1/admin/users",

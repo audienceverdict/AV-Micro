@@ -242,6 +242,7 @@ These documentation URLs return OpenAPI JSON. Service Swagger UI and downstream 
 | GET | `/api/v1/social/comments` |
 | GET | `/api/v1/social/comments/{id}/thread` |
 | POST | `/api/v1/social/comments/{id}/replies` |
+| POST | `/api/v1/social/uploads/{uploadId}/comments` |
 | GET | `/api/v1/social/comment-replies/{id}` |
 | POST | `/api/v1/social/comment-replies/{id}/retry` |
 | PUT | `/api/v1/social/comments/{id}/resolution` |

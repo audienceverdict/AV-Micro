@@ -1,37 +1,21 @@
 package com.slokam.social.providers.youtube;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.slokam.social.configuration.SocialProperties;
+import com.slokam.social.infrastructure.credentials.YouTubeReadAccess;
 import com.slokam.social.core.model.SocialAccount;
-import com.slokam.social.infrastructure.credentials.CredentialResolver;
-import com.slokam.social.infrastructure.resilience.ProviderHttpClient;
 import java.util.*;
 import org.springframework.stereotype.Component;
 
 @Component
 public class YouTubeApiClient {
-  private final ProviderHttpClient http;
-  private final CredentialResolver credentials;
-  private final SocialProperties properties;
+  private final YouTubeReadAccess access;
 
-  public YouTubeApiClient(ProviderHttpClient h, CredentialResolver c, SocialProperties p) {
-    http = h;
-    credentials = c;
-    properties = p;
+  public YouTubeApiClient(YouTubeReadAccess access) {
+    this.access = access;
   }
 
   public JsonNode get(SocialAccount a, String operation, Map<String, String> query) {
-    String token = credentials.optional(a.credentialReference());
-    var config =
-        properties.getPlatforms().get("youtube").getAccounts().stream()
-            .filter(c -> c.getExternalId().equals(a.externalAccountId()))
-            .findFirst()
-            .orElseThrow();
-    String key = credentials.optional(config.getApiKeyReference());
-    if (token == null && key == null)
-      throw new com.slokam.social.core.exception.ProviderException(
-          "YouTube requires an external API key or access token", false, null);
-    return http.get("youtube", operation, query, token, key);
+    return access.get(a, operation, query);
   }
 
   public JsonNode channel(SocialAccount a) {

@@ -1,9 +1,11 @@
 package com.slokam.social.api;
 
+import com.slokam.social.application.VideoTitles;
 import java.util.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,14 +17,45 @@ public class VideoService {
     jdbc = j;
   }
 
+  @Transactional(isolation = Isolation.READ_COMMITTED)
   public Map<String, Object> create(String title, String description) {
+    String key = VideoTitles.key(title);
+    if (key == null || title.codePointCount(0, title.length()) > 255)
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Video title must contain 1-255 characters");
     String id = "VID-" + UUID.randomUUID();
+    // The unique key serializes competing platform syncs and manual creates. A duplicate
+    // must not overwrite the original display title, description or immutable ID.
     jdbc.update(
-        "INSERT INTO application_videos(id,title,description,created_at,updated_at) VALUES(?,?,?,UTC_TIMESTAMP(6),UTC_TIMESTAMP(6))",
+        "INSERT INTO application_videos(id,title,description,title_match_key,created_at,updated_at) VALUES(?,?,?,?,UTC_TIMESTAMP(6),UTC_TIMESTAMP(6)) ON DUPLICATE KEY UPDATE id=id",
         id,
         title,
-        description);
-    return video(id);
+        description,
+        key);
+    // Return the current locked row: a plain read can use an older REPEATABLE READ
+    // snapshot that predates another transaction's winning insert.
+    return jdbc.queryForMap(
+        "SELECT * FROM application_videos WHERE title_match_key=? FOR UPDATE", key);
+  }
+
+  @Transactional(isolation = Isolation.READ_COMMITTED)
+  public void autoAssign(long contentId) {
+    var rows = jdbc.queryForList(
+        "SELECT content_type,title,caption FROM social_content WHERE id=? FOR UPDATE", contentId);
+    if (rows.isEmpty()) return;
+    var upload = rows.getFirst();
+    if (!VideoTitles.isVideo((String) upload.get("content_type"))) return;
+    if (!jdbc.queryForList("SELECT video_id FROM application_video_uploads WHERE content_id=? FOR UPDATE", contentId).isEmpty())
+      return;
+    // Respect explicit unlinks and movie classifications on subsequent syncs/backfills.
+    if (!jdbc.queryForList("SELECT id FROM application_video_assignment_audit WHERE content_id=? LIMIT 1 FOR UPDATE", contentId).isEmpty()
+        || !jdbc.queryForList("SELECT content_id FROM social_post_reviews WHERE content_id=? AND topic='MOVIE' FOR UPDATE", contentId).isEmpty())
+      return;
+    String title = VideoTitles.displayTitle((String) upload.get("title"), (String) upload.get("caption"));
+    if (title == null || title.codePointCount(0, title.length()) > 255) return;
+    String videoId = (String) create(title, null).get("id");
+    jdbc.update("INSERT INTO application_video_uploads(content_id,video_id,assigned_at) VALUES(?,?,UTC_TIMESTAMP(6))",
+        contentId, videoId);
+    audit(contentId, null, videoId);
   }
 
   public List<Map<String, Object>> list(int offset, int limit) {
@@ -111,6 +144,7 @@ public class VideoService {
         next);
   }
 
+  // Upload links consolidate platform comments; audience assignments do not restrict reads.
   public List<Map<String, Object>> comments(String id, long after, int limit) {
     video(id);
     return jdbc.queryForList(

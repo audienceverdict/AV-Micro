@@ -26,7 +26,7 @@ public class VideoController {
   public record CreateVideo(
       @NotBlank @Size(max = 255) String title, @Size(max = 10000) String description) {}
 
-  @Operation(summary = "Create an application video", description = "Creates a local grouping with an immutable VID-UUID ID. This does not upload or publish media.")
+  @Operation(summary = "Find or create an application video", description = "Reuses the existing video when the title matches ignoring case and all whitespace; otherwise creates an immutable VID-UUID ID. Preserves the existing title and description. This does not upload or publish media.")
   @PostMapping("/videos")
   @ResponseStatus(HttpStatus.CREATED)
   public Map<String, Object> create(@Valid @RequestBody CreateVideo body) {
@@ -83,7 +83,7 @@ public class VideoController {
     service.unlink(videoId, contentId);
   }
 
-  @Operation(summary = "List consolidated comments", description = "Returns stored comments and replies across linked uploads in ascending local ID order. Continue with the last id as afterId; restart at zero for edits or assignment changes.")
+  @Operation(summary = "List consolidated comments", description = "Any authenticated user can read comments for any application video; no audience assignment or operator account grant is required. Returns stored comments and replies across all linked platform uploads in ascending local ID order. Continue with the last id as afterId; restart at zero for edits or assignment changes.")
   @GetMapping("/videos/{videoId}/comments")
   public List<Map<String, Object>> comments(
       @Parameter(description = "Local application video ID (VID-UUID).") @PathVariable String videoId,

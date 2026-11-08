@@ -87,7 +87,8 @@ class ProviderWireMockTest {
     var classifier = new YouTubeClassifier();
     var adapter =
         new YouTubeAdapter(
-            new YouTubeApiClient(http, credentials, properties),
+            new YouTubeApiClient(new com.slokam.social.infrastructure.credentials.YouTubeReadAccess(
+                properties, credentials, org.mockito.Mockito.mock(com.slokam.social.publishing.PublishingTokens.class), http)),
             new YouTubeMapper(classifier),
             new YouTubePlaylistMapper(),
             JsonMapper.builder().build(),
@@ -288,7 +289,8 @@ class ProviderWireMockTest {
         "{\"items\":[{\"id\":\"pl\",\"snippet\":{\"title\":\"Playlist\",\"publishedAt\":\"2026-01-01T00:00:00Z\"}}]}");
     var adapter =
         new YouTubeAdapter(
-            new YouTubeApiClient(http, credentials, properties),
+            new YouTubeApiClient(new com.slokam.social.infrastructure.credentials.YouTubeReadAccess(
+                properties, credentials, org.mockito.Mockito.mock(com.slokam.social.publishing.PublishingTokens.class), http)),
             new YouTubeMapper(new YouTubeClassifier()),
             new YouTubePlaylistMapper(),
             JsonMapper.builder().build(),

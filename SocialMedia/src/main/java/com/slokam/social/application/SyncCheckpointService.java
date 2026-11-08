@@ -5,6 +5,7 @@ import com.slokam.social.infrastructure.persistence.*;
 import java.time.*;
 import java.util.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -80,7 +81,7 @@ public class SyncCheckpointService {
     return checkpoints.saveAndFlush(c);
   }
 
-  @Transactional
+  @Transactional(isolation = Isolation.READ_COMMITTED)
   public void commitPage(
       Long jobId,
       String owner,
@@ -137,7 +138,7 @@ public class SyncCheckpointService {
     jobs.save(job);
   }
 
-  @Transactional
+  @Transactional(isolation = Isolation.READ_COMMITTED)
   public void commitRefresh(Long jobId, String owner, List<SocialContent> records) {
     var job = jobs.findById(jobId).orElseThrow();
     leases.guard(job.accountId, owner);
@@ -157,7 +158,7 @@ public class SyncCheckpointService {
     checkpoints.save(cp);
   }
 
-  @Transactional
+  @Transactional(isolation = Isolation.READ_COMMITTED)
   public void commitEphemeralPage(
       Long jobId, String owner, List<SocialContent> records, String cursor) {
     commitRefresh(jobId, owner, records);

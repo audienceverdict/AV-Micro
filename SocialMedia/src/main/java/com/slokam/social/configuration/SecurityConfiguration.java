@@ -40,7 +40,15 @@ public class SecurityConfiguration {
             .requestMatchers(HttpMethod.GET, "/actuator/health", "/actuator/health/**",
                 "/api/content/*/media", "/v3/api-docs", "/v3/api-docs/**", "/v3/api-docs.yaml",
                 "/swagger-ui.html", "/swagger-ui/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/api/portal/videos").authenticated()
+            .requestMatchers("/api/me/video-assignments", "/api/users/*/video-assignments").authenticated()
+            .requestMatchers(HttpMethod.DELETE, "/api/video-assignments").hasRole("ADMIN")
+            .requestMatchers("/api/video-assignments", "/api/videos/*/assigned-users")
+                .hasAnyRole("ADMIN", "SOCIAL_MEDIA_MANAGER")
+            .requestMatchers(HttpMethod.GET, "/api/videos", "/api/videos/*/uploads", "/api/portal/videos").permitAll()
+            // Application-video comments are readable without an audience assignment.
+            // Keep this GET-only rule separate from administrator comment writes.
+            .requestMatchers(HttpMethod.GET, "/api/videos/*/comments").authenticated()
+            .requestMatchers(HttpMethod.GET, "/api/comments", "/api/comments/*/thread").authenticated()
             .anyRequest().hasRole("ADMIN"))
         .oauth2ResourceServer(o -> o.jwt(j -> j.jwtAuthenticationConverter(converter)))
         .build();

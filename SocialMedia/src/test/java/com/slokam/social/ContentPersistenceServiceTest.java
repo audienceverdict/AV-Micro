@@ -36,7 +36,8 @@ class ContentPersistenceServiceTest {
             });
     var service =
         new ContentPersistenceService(
-            posts, assets, JsonMapper.builder().findAndAddModules().build());
+            posts, assets, JsonMapper.builder().findAndAddModules().build(),
+            mock(com.slokam.social.api.VideoService.class));
     assertEquals(1, service.persist(List.of(Fixtures.content("one"))).inserted());
     assertEquals(1, service.persist(List.of(Fixtures.content("one"))).skipped());
     assertEquals(1, service.persist(List.of(Fixtures.content("two"))).updated());

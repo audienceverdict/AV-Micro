@@ -17,8 +17,8 @@ public class OpenApiConfiguration {
   public OpenAPI socialOpenApi() {
     return new OpenAPI()
         .info(new Info().title("Social Media Operator API").version("1.0.0")
-            .description("Identity JWT authenticated administrator API for videos, comments, statistics, publishing and replies. "
-                + "Comment operations additionally require account allowlists keyed by Identity token subject."))
+            .description("Identity JWT authenticated API for videos, audience assignments, comments, statistics, publishing and replies. Audience assignment management supports ADMIN and SOCIAL_MEDIA_MANAGER; audience users may self-assign, self-unassign and read only their own assignments. Only ADMIN may unassign other users. "
+                + "Comment writes require ADMIN with access to all accounts; authenticated users may read comments."))
         .addSecurityItem(new io.swagger.v3.oas.models.security.SecurityRequirement().addList("identityBearer"))
         .components(schemas().addSecuritySchemes("identityBearer", new SecurityScheme()
             .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
@@ -39,18 +39,31 @@ public class OpenApiConfiguration {
         default -> "Successful request; returns stored data or queue state.";
       });
       operation.getResponses().addApiResponse("400", new ApiResponse().description("Invalid input, missing required header/part, or unsupported operation parameters."));
-      if (handler.getMethod().getName().equals("media")) operation.setSecurity(java.util.List.of());
+      if (handler.getMethod().getName().equals("media")
+          || handler.getBeanType().getSimpleName().equals("PortalVideoController")
+          || (handler.getBeanType().getSimpleName().equals("VideoController")
+              && (handler.getMethod().getName().equals("list")
+                  || handler.getMethod().getName().equals("uploads"))))
+        operation.setSecurity(java.util.List.of());
       String name = handler.getMethod().getName();
       String controller = handler.getBeanType().getSimpleName();
-      if (handler.getMethodParameters().length > 0 && !name.equals("list") && !name.equals("inbox") && !name.equals("unassigned") && !name.equals("create"))
+      if (controller.equals("VideoAssignmentController")) {
+        operation.getResponses().addApiResponse("401", new ApiResponse().description("Missing or invalid Identity access token."));
+        operation.getResponses().addApiResponse("403", new ApiResponse().description("Requires the operation-specific role (ADMIN for unassigning others; ADMIN/SOCIAL_MEDIA_MANAGER for other global operations), or access to your own assignments only."));
+        if (name.equals("assign") || name.equals("selfAssign")) {
+          operation.getResponses().addApiResponse("404", new ApiResponse().description("Video or recipient user not found."));
+          operation.getResponses().addApiResponse("503", new ApiResponse().description("Identity service unavailable; no assignments are written."));
+        }
+      }
+      if (!controller.equals("VideoAssignmentController") && handler.getMethodParameters().length > 0 && !name.equals("list") && !name.equals("inbox") && !name.equals("unassigned") && !name.equals("create"))
         operation.getResponses().addApiResponse("404", new ApiResponse().description("Requested local resource was not found."));
       if (controller.equals("ReplyController")) {
         operation.getResponses().addApiResponse("401", new ApiResponse().description("Missing or invalid Identity access token."));
-        operation.getResponses().addApiResponse("403", new ApiResponse().description("Operator is not allowed to access this account."));
+        operation.getResponses().addApiResponse("403", new ApiResponse().description("Administrator role required for comment writes."));
       }
-      if (controller.equals("ReplyController") && name.equals("reply"))
+      if (controller.equals("ReplyController") && (name.equals("reply") || name.equals("create") || name.equals("createForUpload")))
         operation.getResponses().addApiResponse("422", new ApiResponse().description("Stored platform does not support outbound replies."));
-      if (name.equals("assign") || name.equals("reset") || name.equals("retry") || name.equals("reply") || name.equals("confirm"))
+      if (!controller.equals("VideoAssignmentController") && (name.equals("assign") || name.equals("reset") || name.equals("retry") || name.equals("reply") || name.equals("confirm") || (controller.equals("ReplyController") && (name.equals("create") || name.equals("createForUpload")))))
         operation.getResponses().addApiResponse("409", new ApiResponse().description("Conflicting assignment, idempotency key, active lease, cooldown or job state; see operation description."));
       if (controller.equals("PublishingController") && (name.equals("create") || name.equals("publish"))) {
         operation.getResponses().addApiResponse("503", new ApiResponse().description("Publishing is disabled; save with draft=true."));

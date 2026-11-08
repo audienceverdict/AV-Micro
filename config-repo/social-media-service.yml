@@ -15,3 +15,7 @@ social:
     public-media-path: /api/v1/social/content/
     storage-directory: ${PUBLISHING_STORAGE_DIRECTORY:./data/publishing}
     public-base-url: ${PUBLISHING_PUBLIC_BASE_URL:}
+
+internal:
+  identity-url: ${IDENTITY_URL:http://identity-service}
+  service-token: ${INTERNAL_SERVICE_TOKEN}

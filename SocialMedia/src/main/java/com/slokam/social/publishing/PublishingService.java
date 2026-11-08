@@ -20,7 +20,8 @@ public class PublishingService {
       @Schema(description = "Caption; nonblank for TEXT", example = "Meet our latest release") @NotNull @Size(max = 10000) String caption,
       @Schema(description = "TEXT: no file; IMAGE: JPEG/PNG; VIDEO: MP4", example = "VIDEO") @NotNull ContentType type,
       @Schema(description = "Save without queueing destination jobs", defaultValue = "false") boolean draft,
-      @Schema(description = "YouTube visibility; defaults to public when omitted", allowableValues = {"public", "private", "unlisted"}) @Pattern(regexp = "public|private|unlisted") String youtubePrivacy) {}
+      @Schema(description = "YouTube visibility; defaults to public when omitted", allowableValues = {"public", "private", "unlisted"}) @Pattern(regexp = "public|private|unlisted") String youtubePrivacy,
+      @NotNull com.slokam.social.moderation.PostCategory category) {}
   private static final Set<String> PLATFORMS = Set.of("youtube", "facebook", "instagram");
   private final JdbcTemplate jdbc;
   private final TransactionTemplate transactions;
@@ -43,14 +44,17 @@ public class PublishingService {
     var previous = jdbc.queryForList("SELECT id FROM application_content WHERE request_key=?", String.class, key);
     // The first accepted payload wins for a given key. Do not re-upload media or enqueue twice.
     if (!previous.isEmpty()) return get(previous.getFirst());
+    if (request.category() == null) throw badRequest("Choose MOVIE or AV and supply its name");
+    request.category().validate();
     String mime = validateFile(request, file);
     String id = UUID.randomUUID().toString();
     if (file != null && !file.isEmpty()) media.save(id, file);
     try {
       transactions.executeWithoutResult(tx -> {
-        jdbc.update("INSERT INTO application_content(id,request_key,title,caption,content_type,media_type,media_size,youtube_privacy,created_at) VALUES(?,?,?,?,?,?,?,?,UTC_TIMESTAMP(6))",
+        jdbc.update("INSERT INTO application_content(id,request_key,title,caption,content_type,media_type,media_size,youtube_privacy,topic,category_name,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,UTC_TIMESTAMP(6))",
             id, key, request.title(), request.caption(), request.type().name(), mime,
-            file == null ? 0L : file.getSize(), request.youtubePrivacy() == null ? "public" : request.youtubePrivacy());
+            file == null ? 0L : file.getSize(), request.youtubePrivacy() == null ? "public" : request.youtubePrivacy(),
+            request.category().topic().name(), request.category().name());
         if (!request.draft()) enqueue(id);
       });
     } catch (DuplicateKeyException e) {
@@ -84,7 +88,7 @@ public class PublishingService {
   }
 
   public Map<String, Object> get(String id) {
-    var rows = jdbc.queryForList("SELECT id,title,caption,content_type,media_type,media_size,youtube_privacy,created_at FROM application_content WHERE id=?", id);
+    var rows = jdbc.queryForList("SELECT id,title,caption,content_type,media_type,media_size,youtube_privacy,topic,category_name,created_at FROM application_content WHERE id=?", id);
     if (rows.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found");
     var result = new LinkedHashMap<>(rows.getFirst());
     result.put("publications", jdbc.queryForList("SELECT id,platform,external_account_id,status,external_content_id,permalink,error_message,attempts,updated_at FROM social_publications WHERE content_id=? ORDER BY platform,external_account_id", id));

@@ -11,7 +11,7 @@ import java.util.*;
 
 @Service
 public class RoleAccessService {
-    private static final Set<Role> STAFF_ROLES = Set.of(Role.VERIFIER, Role.THEATER_MANAGER, Role.MOVIE_MAKER);
+    private static final Set<Role> STAFF_ROLES = Set.of(Role.VERIFIER, Role.THEATER_MANAGER, Role.MOVIE_MAKER, Role.SOCIAL_MEDIA_MANAGER);
     private final UserRepository users;
     private final com.slokam.av.client.ShowDirectory shows;
     private final RoleAssignmentAuditRepository audits;

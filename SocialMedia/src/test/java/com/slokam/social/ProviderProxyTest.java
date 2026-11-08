@@ -46,6 +46,10 @@ class ProviderProxyTest {
           .withBean(ObjectMapper.class)
           .withBean(CredentialResolver.class, () -> new CredentialResolver(new MockEnvironment()))
           .withBean(ProviderHttpClient.class)
+          .withBean(com.slokam.social.publishing.PublishingProperties.class)
+          .withBean(com.slokam.social.publishing.PublishingHttp.class)
+          .withBean(com.slokam.social.publishing.PublishingTokens.class)
+          .withBean(com.slokam.social.infrastructure.credentials.YouTubeReadAccess.class)
           .run(
               context -> {
                 assertThat(context).hasNotFailed();

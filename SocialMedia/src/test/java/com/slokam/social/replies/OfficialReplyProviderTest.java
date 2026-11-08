@@ -31,6 +31,18 @@ class OfficialReplyProviderTest {
       assertEquals("reply",provider.send(platform,account,"parent","Hello & thanks"));
     }
   }
+  @Test void topLevelCommentsUseContentEdgesAndYoutubeCommentId() {
+    server.stubFor(post("/commentThreads?part=snippet")
+        .withHeader("Authorization",equalTo("Bearer test-token"))
+        .withRequestBody(equalToJson("{\"snippet\":{\"channelId\":\"account\",\"videoId\":\"video\",\"topLevelComment\":{\"snippet\":{\"textOriginal\":\"Hello\"}}}}"))
+        .willReturn(okJson("{\"id\":\"thread-id\",\"snippet\":{\"topLevelComment\":{\"id\":\"comment-id\"}}}")));
+    assertEquals("comment-id",provider.post("youtube",account,"video","Hello"));
+    for(String platform:List.of("instagram","facebook")) {
+      server.stubFor(post("/v26.0/media/comments").withRequestBody(equalTo("message=Hello"))
+          .willReturn(okJson("{\"id\":\"comment-id\"}")));
+      assertEquals("comment-id",provider.post(platform,account,"media","Hello"));
+    }
+  }
   @Test void ambiguousFailuresAreNeverTreatedAsSafeFailures() {
     server.stubFor(post(anyUrl()).willReturn(serverError().withBody("{}")));
     assertEquals("UNKNOWN",assertThrows(PublishFailure.class,()->provider.send("youtube",account,"parent","hello")).status());

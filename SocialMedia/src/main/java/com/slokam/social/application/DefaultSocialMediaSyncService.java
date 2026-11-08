@@ -178,7 +178,7 @@ public class DefaultSocialMediaSyncService implements SocialMediaSyncService {
     JobEntity job = checkpoints.start(a.id(), mode, owner);
     boolean more = false;
     try {
-      if (a.credentialExpiresAt() != null && !a.credentialExpiresAt().isAfter(clock.instant()))
+      if (!a.platform().equals("youtube") && a.credentialExpiresAt() != null && !a.credentialExpiresAt().isAfter(clock.instant()))
         throw new com.slokam.social.core.exception.ProviderException(
             "Configured provider credential is expired", false, null);
       var cfg = properties.getSync();

@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -15,11 +16,14 @@ public class ContentPersistenceService {
   private final ContentRepository content;
   private final AssetRepository assets;
   private final ObjectMapper mapper;
+  private final com.slokam.social.api.VideoService videos;
 
-  public ContentPersistenceService(ContentRepository c, AssetRepository a, ObjectMapper m) {
+  public ContentPersistenceService(ContentRepository c, AssetRepository a, ObjectMapper m,
+      com.slokam.social.api.VideoService videos) {
     content = c;
     assets = a;
     mapper = m;
+    this.videos = videos;
   }
 
   public record Counts(long inserted, long updated, long skipped) {
@@ -28,7 +32,7 @@ public class ContentPersistenceService {
     }
   }
 
-  @Transactional
+  @Transactional(isolation = Isolation.READ_COMMITTED)
   public Counts persist(List<SocialContent> records) {
     long inserted = 0, updated = 0, skipped = 0;
     for (var c : records) {
@@ -42,6 +46,7 @@ public class ContentPersistenceService {
       String fingerprint = fingerprint(c, metrics);
       if (found.isPresent() && fingerprint.equals(e.fingerprint)) {
         e.retrievedAt = c.retrievedAt();
+        if (VideoTitles.isVideo(e.contentType.name())) videos.autoAssign(e.id);
         skipped++;
         continue;
       }
@@ -65,6 +70,7 @@ public class ContentPersistenceService {
       e.fingerprint = fingerprint;
       e = content.saveAndFlush(e);
       reconcile(e.id, c.mediaAssets());
+      if (VideoTitles.isVideo(e.contentType.name())) videos.autoAssign(e.id);
       if (found.isEmpty()) inserted++;
       else updated++;
     }

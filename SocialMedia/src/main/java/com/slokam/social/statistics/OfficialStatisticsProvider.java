@@ -1,6 +1,7 @@
 package com.slokam.social.statistics;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.slokam.social.infrastructure.credentials.YouTubeReadAccess;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.slokam.social.configuration.SocialProperties;
 import com.slokam.social.core.model.SocialAccount;
@@ -15,8 +16,12 @@ import org.springframework.stereotype.Component;
 /** Independent requests keep unsupported/permission-limited metrics from hiding other results. */
 @Component
 public class OfficialStatisticsProvider extends GraphApiClient implements StatisticsProvider {
-  public OfficialStatisticsProvider(ProviderHttpClient h, CredentialResolver c, SocialProperties p) {
+  private final YouTubeReadAccess youtubeAccess;
+
+  public OfficialStatisticsProvider(ProviderHttpClient h, CredentialResolver c, SocialProperties p,
+      YouTubeReadAccess youtubeAccess) {
     super(h, c, p);
+    this.youtubeAccess = youtubeAccess;
   }
 
   public boolean supports(String platform) {
@@ -115,19 +120,11 @@ public class OfficialStatisticsProvider extends GraphApiClient implements Statis
   private Page youtube(SocialAccount a, Target t, String op, String cursor, LocalDate from, LocalDate to) {
     JsonNode response;
     if (op.equals("public")) {
-      var cfg = properties.getPlatforms().get("youtube").getAccounts().stream()
-          .filter(c -> c.getExternalId().equals(a.externalAccountId())).findFirst().orElseThrow();
-      String token = credentials.optional(a.credentialReference());
-      if (a.credentialExpiresAt()!=null && !a.credentialExpiresAt().isAfter(java.time.Instant.now())) token = null;
-      String key = credentials.optional(cfg.getApiKeyReference());
-      if (token == null && key == null) throw new AccessUnavailable();
-      response = http.get("youtube", t.account() ? "channels" : "videos",
-          Map.of("part", "statistics", "id", t.externalId()), token, key);
+      response = youtubeAccess.get(a, t.account() ? "channels" : "videos",
+          Map.of("part", "statistics", "id", t.externalId()));
       if (!response.path("items").isArray()) throw new IllegalArgumentException("Missing YouTube items");
       return new Page(response, null);
     }
-    String token = credentials.optional(a.credentialReference());
-    if (token == null) throw new AccessUnavailable();
     var q = new HashMap<String, String>();
     q.put("ids", "channel==" + a.externalAccountId());
     q.put("startDate", from.toString()); q.put("endDate", to.toString());
@@ -142,7 +139,7 @@ public class OfficialStatisticsProvider extends GraphApiClient implements Statis
     if (start < 1) throw new IllegalArgumentException("Invalid report cursor");
     q.put("startIndex", String.valueOf(start));
     if (!t.account()) q.put("filters", "video==" + t.externalId());
-    response = http.youtubeAnalytics(q, token);
+    response = youtubeAccess.analytics(a, q);
     if (!response.path("columnHeaders").isArray() || (response.has("rows") && !response.path("rows").isArray()))
       throw new IllegalArgumentException("Invalid YouTube report");
     return new Page(response, response.path("rows").size() == 200 ? String.valueOf(start + 200) : null);

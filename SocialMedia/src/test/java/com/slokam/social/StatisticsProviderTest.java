@@ -18,7 +18,9 @@ class StatisticsProviderTest {
   final ProviderHttpClient http=mock(ProviderHttpClient.class);
   final CredentialResolver credentials=mock(CredentialResolver.class);
   final SocialProperties props=new SocialProperties();
-  final OfficialStatisticsProvider provider=new OfficialStatisticsProvider(http,credentials,props);
+  final OfficialStatisticsProvider provider=new OfficialStatisticsProvider(http,credentials,props,
+      new com.slokam.social.infrastructure.credentials.YouTubeReadAccess(props,credentials,
+          mock(com.slokam.social.publishing.PublishingTokens.class),http));
   final LocalDate from=LocalDate.of(2026,10,1), to=LocalDate.of(2026,10,28);
   SocialAccount account(String platform) {
     var cfg=new SocialProperties.Platform(); cfg.setApiVersion(platform.equals("linkedin") ? "202610" : "v26.0");
@@ -47,7 +49,7 @@ class StatisticsProviderTest {
         .thenReturn(json.readTree("{\"items\":[{\"id\":\"123\",\"statistics\":{\"viewCount\":\"0\"}}]}"));
     var page=provider.fetch(a,target(1),"public",null,from,to);
     assertEquals("0",page.data().path("items").path(0).path("statistics").path("viewCount").asText());
-    assertThrows(OfficialStatisticsProvider.AccessUnavailable.class,
+    assertThrows(com.slokam.social.core.exception.ProviderException.class,
         ()->provider.fetch(a,target(1),"analytics:views",null,from,to));
     verify(http,never()).youtubeAnalytics(anyMap(),anyString());
   }
