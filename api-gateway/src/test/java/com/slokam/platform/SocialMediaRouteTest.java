@@ -27,6 +27,21 @@ class SocialMediaRouteTest {
   }
   @Autowired org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext context;
   @AfterAll static void shutdown() { backend.disposeNow(); }
+  @Test void publicAuthRoutesAllowAnyFrontendOrigin() {
+    var client = WebTestClient.bindToServer().baseUrl("http://localhost:" + context.getWebServer().getPort()).build();
+    for (String origin : java.util.List.of("http://203.0.113.10:3000", "https://frontend.example.com")) {
+      for (String path : java.util.List.of("/api/v1/auth/otp/request", "/api/v1/auth/otp/register")) {
+        client.options().uri(path).header("Origin", origin)
+            .header("Access-Control-Request-Method", "POST")
+            .header("Access-Control-Request-Headers", "content-type,authorization")
+            .exchange().expectStatus().isOk()
+            .expectHeader().valueEquals("Access-Control-Allow-Origin", "*");
+        client.post().uri(path).header("Origin", origin)
+            .exchange().expectStatus().isOk()
+            .expectHeader().valueEquals("Access-Control-Allow-Origin", "*");
+      }
+    }
+  }
   @Test void routesSocialApiBeforeAvAndPreservesBearerWhileRemovingInternalHeaders() {
     var client = WebTestClient.bindToServer().baseUrl("http://localhost:" + context.getWebServer().getPort()).build();
     client.get().uri("/api/v1/social/accounts?after=3")

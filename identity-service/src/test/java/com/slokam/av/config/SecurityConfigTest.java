@@ -17,13 +17,33 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = AuthController.class, properties = "app.cors-origins=http://localhost:3000")
+@WebMvcTest(controllers = AuthController.class, properties = "app.cors-origins=*")
 @Import({SecurityConfig.class, JwtAuthenticationFilter.class})
 class SecurityConfigTest {
     @Autowired MockMvc mvc;
     @MockitoBean AuthService authService;
     @MockitoBean JwtService jwtService;
     @MockitoBean CustomUserDetailsService users;
+
+    @Test
+    void publicLoginAllowsAnyFrontendOriginAndPreflightHeaders() throws Exception {
+        for (String origin : java.util.List.of("http://203.0.113.10:3000", "https://frontend.example.com")) {
+            mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options("/api/v1/auth/otp/request")
+                            .header("Origin", origin)
+                            .header("Access-Control-Request-Method", "POST")
+                            .header("Access-Control-Request-Headers", "content-type,x-request-id"))
+                    .andExpect(status().isOk())
+                    .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.header()
+                            .string("Access-Control-Allow-Origin", "*"));
+            mvc.perform(post("/api/v1/auth/email-otp/request")
+                            .header("Origin", origin)
+                            .contentType("application/json")
+                            .content("{\"email\":\"viewer@example.com\"}"))
+                    .andExpect(status().isOk())
+                    .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.header()
+                            .string("Access-Control-Allow-Origin", "*"));
+        }
+    }
 
     @Test
     void otpRequestDoesNotRequireAuthentication() throws Exception {

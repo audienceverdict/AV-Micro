@@ -30,7 +30,7 @@ internal:
   identity-url: ${IDENTITY_INTERNAL_URL:http://identity-service}
   av-url: ${AV_INTERNAL_URL:http://av-service}
 app:
-  cors-origins: ${CORS_ORIGINS:http://localhost:5173}
+  cors-origins: "${CORS_ORIGINS:*}"
   admin:
     mobile: ${APP_ADMIN_MOBILE:}
     email: ${APP_ADMIN_EMAIL:}

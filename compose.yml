@@ -5,7 +5,7 @@ x-client-env: &client-env
   CONFIG_PASSWORD: ${CONFIG_PASSWORD:?Run scripts/setup-local.sh}
   EUREKA_URL: http://discovery:${EUREKA_PASSWORD:?Run scripts/setup-local.sh}@discovery-server:8761/eureka/
   INTERNAL_SERVICE_TOKEN: ${INTERNAL_SERVICE_TOKEN:?Run scripts/setup-local.sh}
-  CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+  CORS_ORIGINS: "${CORS_ORIGINS:-*}"
   SPRING_PROFILES_ACTIVE: dev
 x-mail-env: &mail-env
   MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
