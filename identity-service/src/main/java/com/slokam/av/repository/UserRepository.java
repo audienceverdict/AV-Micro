@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String> {
+    org.springframework.data.domain.Page<User> findByDeletedAtIsNull(org.springframework.data.domain.Pageable pageable);
+
     Optional<User> findByMobile(String mobile);
 
     boolean existsByMobile(String mobile);

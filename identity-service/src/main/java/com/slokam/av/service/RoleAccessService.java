@@ -23,7 +23,7 @@ public class RoleAccessService {
     }
 
     private User account(String id) {
-        return users.findById(id).orElseThrow(() -> new ApiException(404, "USER_NOT_FOUND", "User not found"));
+        return users.findById(id).filter(u -> u.deletedAt == null).orElseThrow(() -> new ApiException(404, "USER_NOT_FOUND", "User not found"));
     }
 
     private void requireAdmin(String actorId) {

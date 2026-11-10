@@ -102,6 +102,19 @@ public class AuthController {
         return service.current(p.getName());
     }
 
+    @io.swagger.v3.oas.annotations.Operation(summary = "Send an account deletion confirmation code", description = "Requires authentication. Sends a purpose-specific OTP to the account's verified email.")
+    @PostMapping("/me/deletion-otp")
+    public com.slokam.av.dto.OtpResponse requestDeletion(Principal principal) {
+        return service.requestDeletion(principal.getName());
+    }
+
+    @io.swagger.v3.oas.annotations.Operation(summary = "Permanently close the authenticated account", description = "Requires X-Deletion-OTP from the deletion confirmation endpoint. Soft-deletes the identity, removes profile contacts and releases mobile/email for fresh registration. Historical booking records are retained. Existing access tokens stop working.")
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteSelf(Principal principal, @RequestHeader("X-Deletion-OTP") String code) {
+        service.deleteSelf(principal.getName(), code);
+        return ResponseEntity.noContent().build();
+    }
+
     @io.swagger.v3.oas.annotations.Operation(summary = "Update the authenticated account name, email and alternative mobile", description = "Update the authenticated account name, email and alternative mobile.")
     @PutMapping("/me")
     public UserResponse update(Principal p, @Valid @RequestBody UpdateProfileRequest r) {

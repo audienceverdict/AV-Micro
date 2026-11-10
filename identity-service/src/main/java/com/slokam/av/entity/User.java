@@ -15,7 +15,7 @@ public class User {
     @Column(nullable = false, length = 150)
     public String name = "Movie lover";
 
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(unique = true, length = 20)
     public String mobile;
 
     @Column(length = 20)
@@ -56,6 +56,14 @@ public class User {
 
     @Column(nullable = false)
     public Instant updatedAt = Instant.now();
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    public Instant deletedAt;
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @Version
+    @Column(nullable = false, columnDefinition = "bigint default 0")
+    public Long version;
 
     public Instant mobileVerifiedAt;
 

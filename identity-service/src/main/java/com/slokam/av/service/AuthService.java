@@ -145,6 +145,7 @@ public class AuthService {
     public User get(String id) {
         log.debug("Processing AuthService.get");
         return users.findById(id)
+                .filter(u -> u.deletedAt == null)
                 .orElseThrow(() -> new ApiException(404, "USER_NOT_FOUND", "User not found"));
     }
 
@@ -167,9 +168,46 @@ public class AuthService {
         return UserResponse.of(users.saveAndFlush(u));
     }
 
+    public OtpResponse requestDeletion(String id) {
+        var user = get(id);
+        if (!user.enabled) throw new ApiException(401, "UNAUTHORIZED", "Account unavailable");
+        if (user.role == Role.ADMIN)
+            throw new ApiException(409, "ADMIN_DELETION_UNSUPPORTED", "Transfer administrator access before deleting this account");
+        if (user.email == null || user.emailVerifiedAt == null)
+            throw new ApiException(409, "VERIFIED_EMAIL_REQUIRED", "A verified email is required to confirm deletion");
+        return otp.requestDeletion(user.email);
+    }
+
+    @Transactional(noRollbackFor = ApiException.class)
+    public void deleteSelf(String id, String code) {
+        var user = get(id);
+        if (!user.enabled) throw new ApiException(401, "UNAUTHORIZED", "Account unavailable");
+        if (user.role == Role.ADMIN)
+            throw new ApiException(409, "ADMIN_DELETION_UNSUPPORTED", "Transfer administrator access before deleting this account");
+        if (user.email == null || user.emailVerifiedAt == null)
+            throw new ApiException(409, "VERIFIED_EMAIL_REQUIRED", "A verified email is required to confirm deletion");
+        otp.verifyChannel(user.email, code, "DELETE_ACCOUNT");
+        otp.invalidateDestination(user.email);
+        otp.invalidateDestination(user.mobile);
+        otp.invalidateDestination(user.alternativeMobile);
+        user.enabled = false;
+        user.deletedAt = java.time.Instant.now();
+        user.name = "Deleted user";
+        user.mobile = null;
+        user.email = null;
+        user.alternativeMobile = null;
+        user.mobileVerifiedAt = null;
+        user.emailVerifiedAt = null;
+        user.role = Role.USER;
+        user.additionalRoles.clear();
+        user.verifierShowIds.clear();
+        users.saveAndFlush(user);
+        log.info("Account self-deleted userId={}", id);
+    }
+
     public Page<UserResponse> list(int page, int size) {
         log.debug("Processing AuthService.list");
-        return users.findAll(
+        return users.findByDeletedAtIsNull(
                         PageRequest.of(
                                 Math.max(0, page),
                                 Math.max(1, Math.min(size, 100)),

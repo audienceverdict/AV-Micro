@@ -11,3 +11,8 @@ spring:
       password: ${CONFIG_PASSWORD}
 server:
   port: ${PORT:8081}
+auth:
+  demo:
+    enabled: ${AUTH_DEMO_ENABLED:false}
+    email: ${AUTH_DEMO_EMAIL:demo@example.test}
+    otp: ${AUTH_DEMO_OTP:123456}

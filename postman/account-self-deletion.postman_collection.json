@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "Account self-deletion",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Identity soft deletion. Historical domain records are retained. Request the dedicated code, then paste it into deletionOtp."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "deletionOtp",
+      "value": ""
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Request deletion OTP",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/me/deletion-otp"
+      }
+    },
+    {
+      "name": "Delete authenticated account",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-Deletion-OTP",
+            "value": "{{deletionOtp}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/v1/auth/me"
+      }
+    }
+  ]
+}

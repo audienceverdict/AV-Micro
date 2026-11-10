@@ -50,15 +50,14 @@ public class JwtService {
                         .subject(user.id)
                         .audience(java.util.List.of("av-api"))
                         .claim("userId", user.id)
-                        .claim("mobile", user.mobile)
                         .claim("role", user.role.name())
                         .claim("roles", user.effectiveRoles().stream().map(Enum::name).toList())
                         .issuedAt(now)
-                        .expiresAt(now.plusMillis(expiration))
-                        .build();
+                        .expiresAt(now.plusMillis(expiration));
+        if (user.mobile != null) claims.claim("mobile", user.mobile);
         return encoder.encode(
                         JwtEncoderParameters.from(
-                                header(), claims))
+                                header(), claims.build()))
                 .getTokenValue();
     }
 

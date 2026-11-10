@@ -19,6 +19,7 @@ import java.security.SecureRandom;
 import java.time.Instant;
 
 @Service
+@org.springframework.context.annotation.Import(DemoAccount.class)
 public class OtpService {
     private static final Logger log = LoggerFactory.getLogger(OtpService.class);
     private final OtpVerificationRepository records;
@@ -26,6 +27,7 @@ public class OtpService {
     private final com.slokam.av.service.EmailDeliveryService email;
     private final BCryptPasswordEncoder hashes = new BCryptPasswordEncoder();
     private final MetaWhatsAppProvider whatsapp;
+    private final DemoAccount demo;
     private final SecureRandom random = new SecureRandom();
     private final long expiry, cooldown;
     private final int attempts, requests;
@@ -35,6 +37,7 @@ public class OtpService {
             AuthLockRepository locks,
             com.slokam.av.service.EmailDeliveryService email,
             MetaWhatsAppProvider whatsapp,
+            DemoAccount demo,
             @Value("${auth.otp.expiration-seconds:600}") long expiry,
             @Value("${auth.otp.resend-cooldown-seconds:30}") long cooldown,
             @Value("${auth.otp.max-attempts:5}") int attempts,
@@ -43,6 +46,7 @@ public class OtpService {
         this.locks = locks;
         this.email = email;
         this.whatsapp = whatsapp;
+        this.demo = demo;
         this.expiry = expiry;
         this.cooldown = cooldown;
         this.attempts = attempts;
@@ -83,6 +87,18 @@ public class OtpService {
         return response;
     }
 
+    @Transactional
+    public OtpResponse requestDeletion(String address) {
+        return requestCode(address, "DELETE_ACCOUNT");
+    }
+
+    public void invalidateDestination(String destination) {
+        if (destination == null) return;
+        lock(destination);
+        // Remove contact data and invalidate proofs, including registration JWT challenges.
+        records.deleteAll(records.findByMobile(destination));
+    }
+
     private String bindingHash(String token) {
         try {
             return java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256")
@@ -120,7 +136,8 @@ public class OtpService {
             throw new ApiException(
                     429, "OTP_RATE_LIMIT", "Too many requests. Please try again later.");
         if (latest.isPresent() && latest.get().verified) latest.get().verified = false;
-        String code = String.format("%06d", random.nextInt(1000000));
+        boolean demoLogin = demo.matches(destination, channel);
+        String code = demoLogin ? demo.code() : String.format("%06d", random.nextInt(1000000));
         OtpVerification otp = new OtpVerification();
         otp.mobile = destination;
         otp.channel = channel;
@@ -128,13 +145,22 @@ public class OtpService {
         otp.createdAt = now;
         otp.expiresAt = now.plusSeconds(expiry);
         records.saveAndFlush(otp);
+        if (demoLogin) {
+            return new OtpResponse(true, "Demo verification code ready", expiry, cooldown);
+        }
         if (channel.equals("WHATSAPP")) {
             whatsapp.sendOtp(destination, code);
         } else {
-            var message = BrandedEmailTemplate.otp(code, expiry / 60);
+            var message = channel.equals("DELETE_ACCOUNT")
+                    ? BrandedEmailTemplate.message("Confirm account deletion",
+                            "Your Audience Verdict account deletion code is " + code
+                                    + ". It expires in " + expiry + " seconds. "
+                                    + "Entering this code will permanently close your account. "
+                                    + "If you did not request deletion, ignore this email and do not share the code.", null)
+                    : BrandedEmailTemplate.otp(code, expiry / 60);
             email.sendHtml(
                     destination,
-                    "Your Audience Verdict sign-in code",
+                    channel.equals("DELETE_ACCOUNT") ? "Confirm Audience Verdict account deletion" : "Your Audience Verdict sign-in code",
                     message.plainText(),
                     message.html(),
                     null);

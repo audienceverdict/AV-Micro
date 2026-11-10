@@ -13,5 +13,7 @@ public interface OtpVerificationRepository extends JpaRepository<OtpVerification
 
     long countByMobileAndChannelAndCreatedAtAfter(String mobile, String channel, Instant since);
 
+    java.util.List<OtpVerification> findByMobile(String mobile);
+
     long deleteByCreatedAtBefore(Instant cutoff);
 }
