@@ -158,19 +158,19 @@ public class OtpService {
                                     + "Entering this code will permanently close your account. "
                                     + "If you did not request deletion, ignore this email and do not share the code.", null)
                     : BrandedEmailTemplate.otp(code, expiry / 60);
-            email.sendHtml(
+            email.sendHtmlNow(
                     destination,
                     channel.equals("DELETE_ACCOUNT") ? "Confirm Audience Verdict account deletion" : "Your Audience Verdict sign-in code",
                     message.plainText(),
                     message.html(),
                     null);
         }
-        log.info("Verification code dispatched channel={}", channel);
+        log.info("Verification code accepted by delivery provider channel={}", channel);
         return new OtpResponse(
                 true,
                 channel.equals("WHATSAPP")
                         ? "WhatsApp OTP accepted by Meta; delivery is not yet confirmed"
-                        : "Verification code queued for email delivery",
+                        : "Email provider accepted the verification code for delivery",
                 expiry,
                 cooldown);
     }

@@ -96,6 +96,35 @@ public class TheatreService {
     public void delete(String id) {
         log.debug("Processing TheatreService.delete");
         get(id);
+        long activeTickets = ((Number) em.createNativeQuery(
+                "select count(*) from bookings b join shows s on s.id=b.show_id "
+                        + "where s.theatre_id=?1 and b.status<>'CANCELLED' and b.ticket_count>0")
+                .setParameter(1, id)
+                .getSingleResult()).longValue();
+        if (activeTickets > 0)
+            throw new ApiException(409, "VENUE_HAS_ACTIVE_TICKETS",
+                    "Venue has active tickets; cancel them before deleting the venue");
+        var showIds = em.createNativeQuery("select id from shows where theatre_id=?1")
+                .setParameter(1, id)
+                .getResultList();
+        for (Object showId : showIds) {
+            em.createNativeQuery("delete from seat_holds where show_id=?1")
+                    .setParameter(1, showId).executeUpdate();
+            em.createNativeQuery("delete from waiting_list_entries where show_id=?1")
+                    .setParameter(1, showId).executeUpdate();
+            var bookingIds = em.createNativeQuery("select id from bookings where show_id=?1")
+                    .setParameter(1, showId).getResultList();
+            for (Object bookingId : bookingIds) {
+                em.createNativeQuery("delete from payments where booking_id=?1")
+                        .setParameter(1, bookingId).executeUpdate();
+                em.createNativeQuery("delete from booking_seats where booking_id=?1")
+                        .setParameter(1, bookingId).executeUpdate();
+            }
+            em.createNativeQuery("delete from bookings where show_id=?1")
+                    .setParameter(1, showId).executeUpdate();
+        }
+        em.createNativeQuery("delete from shows where theatre_id=?1")
+                .setParameter(1, id).executeUpdate();
         var screenIds =
                 em.createNativeQuery("select id from screens where theatre_id=?1")
                         .setParameter(1, id)
@@ -377,7 +406,8 @@ public class TheatreService {
     public Screen updateScreen(String id, Screen next) {
         var screen = lockScreen(id);
         screen.name = next.name; screen.number = next.number; screen.status = next.status;
-        // Legacy writes go through the same immutable version workflow.
+        // Only create a layout version when the caller explicitly submits seats.
+        // Metadata-only updates must not copy/publish the entire seat map.
         if (next.seats != null && !next.seats.isEmpty()) {
             var draft = createLayoutVersion(id, null, null);
             var existingIds = versionSeats(draft.id).stream().map(LayoutSeat::bookingSeatId).collect(java.util.stream.Collectors.toSet());
@@ -389,8 +419,6 @@ public class TheatreService {
             }).toList();
             saveLayoutSeats(id, draft.id, input);
             publishLayoutVersion(id, draft.id);
-        } else {
-            throw new ApiException(400, "EMPTY_LAYOUT", "Add at least one seat before saving the layout");
         }
         return screenView(screen);
     }

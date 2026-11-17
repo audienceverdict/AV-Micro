@@ -18,6 +18,12 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
 
     long countByShowId(String showId);
 
+    @Query("select count(b) > 0 from Booking b, Show s where b.showId = s.id "
+            + "and s.movieId = :movieId and b.userId = :userId and b.attended = true "
+            + "and b.status = :status and b.ticketCount > 0")
+    boolean hasAttendedMovie(@Param("userId") String userId, @Param("movieId") String movieId,
+            @Param("status") BookingStatus status);
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Booking> findByTicketCode(String ticketCode);
 

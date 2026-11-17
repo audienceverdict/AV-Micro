@@ -29,6 +29,11 @@ public class EmailDeliveryService {
         sendHtml(to, subject, plain, html, poster, () -> {}, () -> {});
     }
 
+    /** Sends transactional messages inline so callers can report provider failures accurately. */
+    public void sendHtmlNow(String to, String subject, String plain, String html, String poster) {
+        provider.sendHtml(to, subject, plain, html, poster, null);
+    }
+
     public void sendHtml(String to, String subject, String plain, String html, String poster,
             Runnable success, Runnable failure) {
         sendHtml(to, subject, plain, html, poster, null, success, failure);

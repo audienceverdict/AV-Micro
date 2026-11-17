@@ -4,7 +4,7 @@ set -eu
 : "${MYSQL_HOST:=mysql}"
 : "${MYSQL_ROOT_PASSWORD:?MySQL administrative credential is required}"
 : "${SOCIAL_MEDIA_DB_PASSWORD_FILE:=/run/secrets/social_media_db_password}"
-sync_password=$(cat "$SOCIAL_MEDIA_DB_PASSWORD_FILE")
+sync_password=$(tr -d '\r\n' < "$SOCIAL_MEDIA_DB_PASSWORD_FILE")
 # setup-local.sh generates 32-byte hex secrets. Validate before SQL interpolation.
 case "$sync_password" in
   ''|*[!a-fA-F0-9]*) echo "SocialMedia database secret must be 64 hexadecimal characters" >&2; exit 1 ;;

@@ -1,14 +1,14 @@
 com/slokam/av/catalog/CatalogIntegrationTest$Config.class
 com/slokam/av/repository/TicketScanHistoryRepositoryTest.class
 com/slokam/av/layout/LayoutIntegrationTest.class
-com/slokam/av/layout/LayoutEntityUpgradeTest.class
 com/slokam/av/exception/handler/GlobalExceptionHandlerTest$SeatController.class
+com/slokam/av/layout/LayoutEntityUpgradeTest.class
 com/slokam/av/layout/LayoutIntegrationTest$Config.class
 com/slokam/av/layout/LayoutEntityUpgradeTest$LegacyVersion.class
 com/slokam/av/layout/LayoutEntityUpgradeTest$LegacyScreen.class
 com/slokam/av/catalog/CatalogMigrationTest.class
-com/slokam/av/security/IdentityBoundaryTest.class
 com/slokam/av/exception/handler/GlobalExceptionHandlerTest$MovieInputController.class
+com/slokam/av/security/IdentityBoundaryTest.class
 com/slokam/av/service/BookingSeatLabelsTest.class
 com/slokam/av/config/InternalSecurityTest.class
 com/slokam/av/layout/LayoutIntegrationTest$Fixture.class

@@ -27,6 +27,16 @@ public class ReviewController {
         return service.list(movieId, status);
     }
 
+    @GetMapping("/eligibility")
+    public ReviewService.ReviewEligibility eligibility(Principal p, @RequestParam String movieId) {
+        return service.eligibility(p, movieId);
+    }
+
+    @GetMapping("/rating-summary")
+    public ReviewService.PublicRatingSummary ratingSummary(@RequestParam String movieId) {
+        return service.ratingSummary(movieId);
+    }
+
     @io.swagger.v3.oas.annotations.Operation(summary = "Create a movie review for the authenticated account", description = "Create a movie review for the authenticated account.")
     @PostMapping
     public Review create(Principal p, @RequestBody Review review) {
